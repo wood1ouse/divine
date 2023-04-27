@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,7 +13,12 @@ import { TestCasesModule } from '@pages/test-cases/test-cases.module';
 import { TestSuitesModule } from '@pages/test-suites/test-suites.module';
 import { LayoutModule } from '@layout/layout.module';
 
-const MODULES = [
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
+import { effects, reducers } from './store';
+import { EffectsModule } from '@ngrx/effects';
+
+const FEATURES = [
   DashboardModule,
   LoginModule,
   ProjectsModule,
@@ -25,9 +30,21 @@ const MODULES = [
   LayoutModule,
 ];
 
+const STORE = [
+  StoreModule.forRoot(reducers),
+  EffectsModule.forRoot(effects),
+  StoreDevtoolsModule.instrument({
+    maxAge: 25,
+    logOnly: !isDevMode(),
+    autoPause: true,
+    trace: false,
+    traceLimit: 75,
+  }),
+];
+
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, ...MODULES],
+  imports: [BrowserModule, AppRoutingModule, ...FEATURES, ...STORE],
   providers: [],
   bootstrap: [AppComponent],
 })
