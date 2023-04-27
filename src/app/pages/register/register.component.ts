@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService } from '@services/auth.service';
+import { AuthFacade } from '@facades/auth.facade';
 
 @Component({
   selector: 'divine-register',
@@ -15,8 +14,7 @@ export class RegisterComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private router: Router
+    private authFacade: AuthFacade
   ) {
     this.registerForm = this.formBuilder.group(
       {
@@ -36,24 +34,10 @@ export class RegisterComponent {
     return password === confirmPassword ? null : { mismatch: true };
   }
 
-  async register() {
+  register() {
     if (this.registerForm.valid) {
       const { email, password } = this.registerForm.value;
-
-      try {
-        const { user, error } = await this.authService.register(
-          email,
-          password
-        );
-
-        if (error) {
-          console.error('Error during sign up:', error.message);
-        } else if (user) {
-          this.router.navigate(['/']);
-        }
-      } catch (error) {
-        console.error('Error during sign up:', error);
-      }
+      this.authFacade.dispatchRegister({ email, password });
     }
   }
 }

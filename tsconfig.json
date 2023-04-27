@@ -25,7 +25,10 @@
     "paths": {
       "@pages/*": ["app/pages/*"],
       "@layout/*": ["app/layout/*"],
-      "@services/*": ["app/services/*"]
+      "@services/*": ["app/services/*"],
+      "@store/*": ["app/store/*"],
+      "@facades/*": ["app/facades/*"],
+      "@models/*": ["app/models/*"]
     }
   },
   "angularCompilerOptions": {
