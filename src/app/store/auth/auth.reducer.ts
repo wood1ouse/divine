@@ -2,21 +2,30 @@ import { createReducer, on } from '@ngrx/store';
 import { AuthActions } from './auth.actions';
 import { User } from '@supabase/supabase-js';
 
-export const featureKey = 'auth'
+import { ApiState, ApiStatuses } from '@models/store';
 
-export interface State {
+export const featureKey = 'auth';
+
+export interface State extends ApiState {
   user: User | null;
 }
 
 export const initialState: State = {
   user: null,
+  status: ApiStatuses.NOT_LOADED,
 };
 
 export const reducer = createReducer(
   initialState,
+
   on(
-    AuthActions.registerSuccess,
     AuthActions.signInSuccess,
-    (state, { user }) => ({ ...state, user })
-  )
+    AuthActions.setUser,
+    (state, { user }): State => ({
+      ...state,
+      user,
+      status: ApiStatuses.LOADED,
+    })
+  ),
+  on(AuthActions.signOutSuccess, (state): State => ({ ...state, user: null }))
 );

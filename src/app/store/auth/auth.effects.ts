@@ -49,12 +49,56 @@ export class AuthEffects {
     )
   );
 
-  redirectToRootOnSignInOrRegisterSuccess$ = createEffect(
+  logOut$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.signOut),
+      switchMap(() =>
+        of(this.authService.signOut()).pipe(
+          map(() => AuthActions.signOutSuccess()),
+          catchError((error) => of({ type: '[Auth] Sign In Error', error }))
+        )
+      )
+    )
+  );
+
+  initAuthState$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.initAuthState),
+      switchMap(async () => {
+        const user = await this.authService.getUserFromLocalStorage();
+        return AuthActions.setUser({ user });
+      })
+    );
+  });
+
+  redirectToDashboardOnSignInSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.signInSuccess, AuthActions.registerSuccess),
+        ofType(AuthActions.signInSuccess),
         tap(() => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/dashboard']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  redirectToLoginOnLogout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.signOutSuccess),
+        tap(() => {
+          this.router.navigate(['/login']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  redirectToEmailConfirmOnRegisterSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.registerSuccess),
+        tap(() => {
+          this.router.navigate(['/email-confirm']);
         })
       ),
     { dispatch: false }

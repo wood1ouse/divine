@@ -1,15 +1,25 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromAuthReducer from './auth.reducer';
+import { ApiStatuses } from '@models/store';
 
 const selectAuthState = createFeatureSelector<fromAuthReducer.State>(
   fromAuthReducer.featureKey
 );
 
-const selectUserEmail = createSelector(selectAuthState, (state) =>
-  state.user && state.user.email ? state.user.email : null
+const selectUser = createSelector(selectAuthState, (state) => state.user);
+
+const selectUserEmail = createSelector(selectUser, (user) =>
+  user && user.email ? user.email : null
+);
+
+const selectUserIsLoaded = createSelector(
+  selectAuthState,
+  (state) => state.status === ApiStatuses.LOADED
 );
 
 export const fromAuth = {
   selectAuthState,
+  selectUser,
   selectUserEmail,
+  selectUserIsLoaded,
 };

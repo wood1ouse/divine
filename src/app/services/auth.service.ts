@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ClientTokens } from '@models/auth';
 import { createClient, User } from '@supabase/supabase-js';
 import { environment } from 'environments/environment';
 
@@ -30,5 +31,27 @@ export class AuthService {
     });
 
     return { user: data.user, error };
+  }
+
+  async signOut(): Promise<void> {
+    await this.supabase.auth.signOut();
+  }
+
+  async getUserFromLocalStorage(): Promise<User | null> {
+    const persistedToken = localStorage.getItem(ClientTokens.SUPABASE_USER);
+
+    if (persistedToken) {
+      const parsedToken = JSON.parse(persistedToken);
+      this.supabase.auth.getUser();
+      const { data } = await this.supabase.auth.getUser(
+        parsedToken.access_token
+      );
+
+      if (data.user) {
+        return data.user;
+      }
+    }
+
+    return null;
   }
 }
