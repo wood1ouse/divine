@@ -1,1 +1,4 @@
-<div *ngIf="email">{{ email }}</div>
+<div class="border-b-2 border-red-700">
+  <div *ngIf="email">{{ email }}</div>
+  <button *ngIf="user" (click)="onLogout()">Logout</button>
+</div>

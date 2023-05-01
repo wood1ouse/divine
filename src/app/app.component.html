@@ -1,2 +1,5 @@
-<divine-header [email]="userEmail$ | async"></divine-header>
+<divine-header
+  [email]="userEmail$ | async"
+  [user]="user$ | async"
+></divine-header>
 <router-outlet></router-outlet>

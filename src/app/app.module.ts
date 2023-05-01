@@ -4,13 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { DashboardModule } from '@pages/dashboard/dashboard.module';
 import { LoginModule } from '@pages/login/login.module';
-import { ProjectsModule } from '@pages/projects/projects.module';
 import { RegisterModule } from '@pages/register/register.module';
-import { ReportsModule } from '@pages/reports/reports.module';
-import { TestCasesModule } from '@pages/test-cases/test-cases.module';
-import { TestSuitesModule } from '@pages/test-suites/test-suites.module';
 import { LayoutModule } from '@layout/layout.module';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -18,17 +13,26 @@ import { StoreModule } from '@ngrx/store';
 import { effects, reducers } from './store';
 import { EffectsModule } from '@ngrx/effects';
 
-const FEATURES = [
-  DashboardModule,
-  LoginModule,
-  ProjectsModule,
-  RegisterModule,
-  ReportsModule,
-  TestCasesModule,
-  TestSuitesModule,
-  TestSuitesModule,
-  LayoutModule,
+import { DashboardComponent } from '@pages/dashboard/dashboard.component';
+import { ProjectDetailComponent } from '@pages/project-detail/project-detail.component';
+import { TestSuitesComponent } from '@pages/test-suites/test-suites.component';
+import { TestSuiteDetailComponent } from '@pages/test-suite-detail/test-suite-detail.component';
+import { TestCasesComponent } from '@pages/test-cases/test-cases.component';
+import { TestCaseDetailComponent } from '@pages/test-case-detail/test-case-detail.component';
+import { ProjectsComponent } from '@pages/projects/projects.component';
+import { EmailConfirmComponent } from './pages/email-confirm/email-confirm.component';
+
+const COMPONENTS = [
+  DashboardComponent,
+  ProjectsComponent,
+  ProjectDetailComponent,
+  TestSuitesComponent,
+  TestSuiteDetailComponent,
+  TestCasesComponent,
+  TestCaseDetailComponent,
 ];
+
+const FEATURES = [LoginModule, RegisterModule, LayoutModule];
 
 const STORE = [
   StoreModule.forRoot(reducers),
@@ -43,7 +47,7 @@ const STORE = [
 ];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ...COMPONENTS, EmailConfirmComponent],
   imports: [BrowserModule, AppRoutingModule, ...FEATURES, ...STORE],
   providers: [],
   bootstrap: [AppComponent],
