@@ -3,11 +3,13 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:angular/johnpapa",
     "prettier",
-    "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
   "plugins": ["@typescript-eslint", "angular", "prettier"],
   "rules": {
     "prettier/prettier": "error"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020
   }
 }

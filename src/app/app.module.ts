@@ -20,7 +20,18 @@ import { TestSuiteDetailComponent } from '@pages/test-suite-detail/test-suite-de
 import { TestCasesComponent } from '@pages/test-cases/test-cases.component';
 import { TestCaseDetailComponent } from '@pages/test-case-detail/test-case-detail.component';
 import { ProjectsComponent } from '@pages/projects/projects.component';
-import { EmailConfirmComponent } from './pages/email-confirm/email-confirm.component';
+import { EmailConfirmComponent } from '@pages/email-confirm/email-confirm.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {
+  NbButtonModule,
+  NbLayoutModule,
+  NbStepperModule,
+  NbThemeModule,
+} from '@nebular/theme';
+import { HttpClientModule } from '@angular/common/http';
+import { ProjectCreateComponent } from '@pages/project-create/project-create.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -47,8 +58,24 @@ const STORE = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...COMPONENTS, EmailConfirmComponent],
-  imports: [BrowserModule, AppRoutingModule, ...FEATURES, ...STORE],
+  declarations: [
+    AppComponent,
+    EmailConfirmComponent,
+    ...COMPONENTS,
+    ProjectCreateComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    NbThemeModule.forRoot({ name: 'default' }),
+    ...FEATURES,
+    ...STORE,
+    NbLayoutModule,
+    NbButtonModule,
+    NbStepperModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,21 @@
+<p>project-create works!</p>
+<nb-stepper>
+  <nb-step [label]="labelOne">
+    <ng-template #labelOne>Project Info</ng-template>
+    <p class="lorem">
+      Name Form, Description Form...
+    </p>
+    <button nbButton disabled nbStepperNext>prev</button>
+    <button nbButton nbStepperNext>next</button>
+  </nb-step>
+
+  <nb-step [label]="labelTwo">
+    <ng-template #labelTwo>API Key</ng-template>
+    <h4>Link API KEY</h4>
+    <p class="lorem">
+      API Integration Instruction...
+    </p>
+    <button nbButton nbStepperPrevious>prev</button>
+    <button nbButton nbStepperNext>next</button>
+  </nb-step>
+</nb-stepper>

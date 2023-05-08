@@ -17,9 +17,18 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
+  on(
+    AuthActions.signIn,
+    AuthActions.register,
+    (state): State => ({
+      ...state,
+      status: ApiStatuses.LOADING,
+    })
+  ),
 
   on(
     AuthActions.signInSuccess,
+    AuthActions.registerSuccess,
     AuthActions.setUser,
     (state, { user }): State => ({
       ...state,
@@ -27,5 +36,8 @@ export const reducer = createReducer(
       status: ApiStatuses.LOADED,
     })
   ),
-  on(AuthActions.signOutSuccess, (state): State => ({ ...state, user: null }))
+  on(
+    AuthActions.signOutSuccess,
+    (state): State => ({ ...state, user: null, status: ApiStatuses.LOADED })
+  )
 );
