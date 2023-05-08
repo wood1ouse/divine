@@ -1,4 +1,17 @@
-<div class="border-b-2 border-red-700">
-  <div *ngIf="email">{{ email }}</div>
-  <button *ngIf="user" (click)="onLogout()">Logout</button>
+<div class="header__container">
+  <nb-user
+    *ngIf="email"
+    [name]="email"
+    [nbPopover]="popOverRef"
+    [nbPopoverPlacement]="'bottom'"
+    [nbPopoverOffset]="20"
+    class="header__user"
+    >{{ email }}</nb-user>
 </div>
+
+<ng-template #popOverRef>
+  <div class="header__popover-menu">
+    <nb-icon icon="log-out"></nb-icon>
+    <div (click)="logout()">Log Out</div>
+  </div>
+</ng-template>

@@ -14,7 +14,7 @@ export class HeaderComponent {
 
   @Input() user: User | null;
 
-  onLogout(): void {
+  logout(): void {
     this.authFacade.dispatchLogout();
   }
 }
