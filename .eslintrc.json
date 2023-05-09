@@ -1,15 +1,46 @@
 {
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:angular/johnpapa",
-    "prettier",
-    "plugin:prettier/recommended"
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
   ],
-  "plugins": ["@typescript-eslint", "angular", "prettier"],
-  "rules": {
-    "prettier/prettier": "error"
-  },
-  "parserOptions": {
-    "ecmaVersion": 2020
-  }
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "divine",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "divine",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ]
 }

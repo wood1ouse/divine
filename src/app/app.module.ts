@@ -26,12 +26,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
   NbButtonModule,
+  NbCardModule,
+  NbInputModule,
   NbLayoutModule,
   NbStepperModule,
   NbThemeModule,
 } from '@nebular/theme';
 import { HttpClientModule } from '@angular/common/http';
 import { ProjectCreateComponent } from '@pages/project-create/project-create.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -75,6 +78,9 @@ const STORE = [
     NbLayoutModule,
     NbButtonModule,
     NbStepperModule,
+    NbCardModule,
+    NbInputModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

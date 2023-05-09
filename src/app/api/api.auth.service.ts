@@ -6,7 +6,7 @@ import { environment } from 'environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class ApiAuthService {
   private supabase = createClient(
     environment['SUPABASE_URL'],
     environment['SUPABASE_KEY']
@@ -42,7 +42,6 @@ export class AuthService {
 
     if (persistedToken) {
       const parsedToken = JSON.parse(persistedToken);
-      this.supabase.auth.getUser();
       const { data } = await this.supabase.auth.getUser(
         parsedToken.access_token
       );
