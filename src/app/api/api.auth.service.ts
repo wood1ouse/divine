@@ -42,7 +42,6 @@ export class ApiAuthService {
 
     if (persistedToken) {
       const parsedToken = JSON.parse(persistedToken);
-      this.supabase.auth.getUser();
       const { data } = await this.supabase.auth.getUser(
         parsedToken.access_token
       );

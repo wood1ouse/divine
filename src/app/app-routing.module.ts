@@ -16,6 +16,7 @@ import { DashboardComponent } from '@pages/dashboard/dashboard.component';
 import { DefaultGuard } from './guards/default.guard';
 import { LoggedInGuard } from './guards/logged-in.guard';
 import { AuthGuard } from './guards/auth.guard';
+import { ProjectAccessGuard } from './guards/project-access.guard';
 
 const routes: Routes = [
   {
@@ -75,9 +76,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'projects/:id',
+    path: 'projects/:projectId',
     component: ProjectDetailComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, ProjectAccessGuard],
   },
   {
     path: 'projects/:id/test-suites',
