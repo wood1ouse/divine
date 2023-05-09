@@ -6,7 +6,7 @@ import { environment } from 'environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class ApiAuthService {
   private supabase = createClient(
     environment['SUPABASE_URL'],
     environment['SUPABASE_KEY']

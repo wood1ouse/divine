@@ -1,0 +1,121 @@
+export interface Database {
+  public: {
+    Tables: {
+      project_users: {
+        Row: {
+          project_id: number;
+          user_id: string;
+        };
+        Insert: {
+          project_id: number;
+          user_id: string;
+        };
+        Update: {
+          project_id?: number;
+          user_id?: string;
+        };
+      };
+      projects: {
+        Row: {
+          api_token: string | null;
+          created_at: string;
+          description: string | null;
+          id: number;
+          name: string;
+          updated_at: string;
+        };
+        Insert: {
+          api_token: string | null;
+          created_at: string;
+          description?: string | null;
+          id?: number;
+          name: string;
+          updated_at: string;
+        };
+        Update: {
+          api_token?: string | null;
+          created_at?: string;
+          description?: string | null;
+          id?: number;
+          name?: string;
+          updated_at?: string;
+        };
+      };
+      test_cases: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          expected_result: string | null;
+          id: number;
+          status: string;
+          steps: string | null;
+          test_suite_id: number;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at: string;
+          description?: string | null;
+          expected_result?: string | null;
+          id?: number;
+          status?: string;
+          steps?: string | null;
+          test_suite_id: number;
+          title: string;
+          updated_at: string;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          expected_result?: string | null;
+          id?: number;
+          status?: string;
+          steps?: string | null;
+          test_suite_id?: number;
+          title?: string;
+          updated_at?: string;
+        };
+      };
+      test_suites: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          id: number;
+          name: string;
+          project_id: number;
+          updated_at: string;
+        };
+        Insert: {
+          created_at: string;
+          description?: string | null;
+          id?: number;
+          name: string;
+          project_id: number;
+          updated_at: string;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          id?: number;
+          name?: string;
+          project_id?: number;
+          updated_at?: string;
+        };
+      };
+    };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
+  };
+}
+
+export type Project = Database['public']['Tables']['projects']['Row'];

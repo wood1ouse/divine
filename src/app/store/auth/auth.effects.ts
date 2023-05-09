@@ -4,7 +4,7 @@ import { switchMap, map, catchError, tap } from 'rxjs/operators';
 import { from, of } from 'rxjs';
 
 import { AuthActions } from './auth.actions';
-import { AuthService } from '@services/auth.service';
+import { ApiAuthService } from '../../api/api.auth.service';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -106,7 +106,7 @@ export class AuthEffects {
 
   constructor(
     private actions$: Actions,
-    private authService: AuthService,
+    private authService: ApiAuthService,
     private router: Router
   ) {}
 }

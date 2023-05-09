@@ -1,2 +1,6 @@
 <p>PROJECTS PAGE</p>
-<a routerLink="./fff">First Project</a>
+<ul *ngIf="projects$ | async as projects">
+  <li *ngFor="let project of projects">
+    <a [routerLink]="'./' + project.id">{{project.name}}</a>
+  </li>
+</ul>

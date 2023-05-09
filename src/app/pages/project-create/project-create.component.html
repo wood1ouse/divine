@@ -1,21 +1,16 @@
-<p>project-create works!</p>
-<nb-stepper>
-  <nb-step [label]="labelOne">
-    <ng-template #labelOne>Project Info</ng-template>
-    <p class="lorem">
-      Name Form, Description Form...
-    </p>
-    <button nbButton disabled nbStepperNext>prev</button>
-    <button nbButton nbStepperNext>next</button>
-  </nb-step>
+<div class="project-create-container">
+  <nb-card>
+    <nb-card-header>Create Project</nb-card-header>
+    <nb-card-body>
+      <form (ngSubmit)="createProject()" [formGroup]="projectForm">
+        <label for="name">Name:</label>
+        <input nbInput type="text" id="name" formControlName="name" required />
 
-  <nb-step [label]="labelTwo">
-    <ng-template #labelTwo>API Key</ng-template>
-    <h4>Link API KEY</h4>
-    <p class="lorem">
-      API Integration Instruction...
-    </p>
-    <button nbButton nbStepperPrevious>prev</button>
-    <button nbButton nbStepperNext>next</button>
-  </nb-step>
-</nb-stepper>
+        <label for="description">Description:</label>
+        <textarea nbInput id="description" formControlName="description" required></textarea>
+
+        <button nbButton status="primary" [disabled]="projectForm.invalid">Save</button>
+      </form>
+    </nb-card-body>
+  </nb-card>
+</div>
