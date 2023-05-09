@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { filter, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { fromProject } from '@store/projects/projects.selectors';
@@ -18,10 +13,7 @@ import { ProjectsActions } from '@store/projects/projects.actions';
 export class ProjectAccessGuard implements CanActivate {
   constructor(private store: Store, private router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const projectId = parseInt(route.paramMap.get('projectId') || '', 10);
 
     return this.store.select(fromProject.selectProjectsState).pipe(
@@ -37,12 +29,10 @@ export class ProjectAccessGuard implements CanActivate {
         );
 
         if (!project || isNaN(projectId)) {
-          console.log('FORBIDDEN');
           this.router.navigate(['/projects']);
           return false;
         }
 
-        console.log('GOOD');
         return true;
       })
     );
