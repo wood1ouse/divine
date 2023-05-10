@@ -56,4 +56,18 @@ export class ApiProjectsService {
       updated_at: new Date().toISOString(),
     });
   }
+
+  async updateInviteToken(projectId: number) {
+    const currentTime = new Date();
+
+    return this.supabase
+      .from('projects')
+      .update({
+        invite_token: uuidv4(),
+        invite_token_expiration: new Date(
+          currentTime.getTime() + 60 * 60 * 1000 // Добавьте 30 минут к текущему времени
+        ).toISOString(),
+      })
+      .match({ id: projectId });
+  }
 }

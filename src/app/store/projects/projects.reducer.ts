@@ -7,11 +7,17 @@ export const featureKey = 'projects';
 
 export interface State extends ApiState {
   projects: Project[];
+  activeProjectId: number | null;
+  remainingInviteTime: number | null;
+  trackInviteToken: boolean;
 }
 
 export const initialState: State = {
   projects: [],
+  activeProjectId: null,
+  remainingInviteTime: null,
   status: ApiStatuses.NOT_LOADED,
+  trackInviteToken: false,
 };
 
 export const reducer = createReducer(
@@ -37,5 +43,25 @@ export const reducer = createReducer(
       ...state,
       status: ApiStatuses.NOT_LOADED,
     })
-  )
+  ),
+  on(
+    ProjectsActions.setActiveProject,
+    (state, { projectId }): State => ({
+      ...state,
+      activeProjectId: projectId,
+    })
+  ),
+  on(ProjectsActions.updateRemainingTime, (state, { time }) => ({
+    ...state,
+    remainingInviteTime: time,
+  })),
+  on(ProjectsActions.subscribeToInviteToken, (state) => ({
+    ...state,
+    trackInviteToken: true,
+  })),
+  on(ProjectsActions.unsubscribeToInviteToken, (state) => ({
+    ...state,
+    remainingInviteTime: null,
+    trackInviteToken: false,
+  }))
 );

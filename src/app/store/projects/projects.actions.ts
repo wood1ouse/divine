@@ -25,6 +25,34 @@ const createProjectFailure = createAction(
   props<{ error: Error }>()
 );
 
+const setActiveProject = createAction(
+  '[Projects] Set Active Project',
+  props<{ projectId: number }>()
+);
+
+const updateRemainingTime = createAction(
+  '[Projects] Update Remaining Time',
+  props<{ time: number }>()
+);
+
+const updateInviteToken = createAction('[Projects] Update Invite Token');
+
+const updateInviteTokenSuccess = createAction(
+  '[Projects] Update Invite Token Success'
+);
+
+const updateInviteTokenFailure = createAction(
+  '[Projects] Update Invite Token Failure'
+);
+
+const subscribeToInviteToken = createAction(
+  '[Projects] Subscribe To Invite Token'
+);
+
+const unsubscribeToInviteToken = createAction(
+  '[Projects] Unsubscribe To Invite Token'
+);
+
 export const ProjectsActions = {
   loadProjects,
   loadProjectsSuccess,
@@ -32,4 +60,11 @@ export const ProjectsActions = {
   createProject,
   createProjectSuccess,
   createProjectFailure,
+  setActiveProject,
+  updateRemainingTime,
+  updateInviteToken,
+  updateInviteTokenSuccess,
+  updateInviteTokenFailure,
+  subscribeToInviteToken,
+  unsubscribeToInviteToken,
 };

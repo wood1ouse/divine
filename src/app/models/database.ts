@@ -21,14 +21,18 @@ export interface Database {
           created_at: string;
           description: string | null;
           id: number;
+          invite_token: string | null;
+          invite_token_expiration: string | null;
           name: string;
           updated_at: string;
         };
         Insert: {
-          api_token: string | null;
+          api_token?: string | null;
           created_at: string;
           description?: string | null;
           id?: number;
+          invite_token?: string | null;
+          invite_token_expiration?: string | null;
           name: string;
           updated_at: string;
         };
@@ -37,6 +41,8 @@ export interface Database {
           created_at?: string;
           description?: string | null;
           id?: number;
+          invite_token?: string | null;
+          invite_token_expiration?: string | null;
           name?: string;
           updated_at?: string;
         };

@@ -1,6 +1,6 @@
 <p>PROJECTS PAGE</p>
-<ul *ngIf="projects$ | async as projects">
-  <li *ngFor="let project of projects">
-    <a [routerLink]="'./' + project.id">{{project.name}}</a>
+<ul *ngIf='projects$ | async as projects'>
+  <li *ngFor='let project of projects'>
+    <a (click)='setActiveProject(project.id)'>{{project.name}}</a>
   </li>
 </ul>
