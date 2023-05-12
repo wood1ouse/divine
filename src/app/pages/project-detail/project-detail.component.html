@@ -1,2 +1,7 @@
 <p>PROJECT DETAIL PAGE</p>
-<a routerLink="./test-suites">Test Suites</a>
+<ng-container *ngIf="project$ | async as project">
+  <div>Project Name: {{ project.name }}</div>
+  <div>Invite Token: {{inviteToken$ | async}}</div>
+  <div>{{ inviteTokenRemainingTime$ | async | date:'mm:ss' }}</div>
+  <a routerLink="./test-suites">Test Suites</a>
+</ng-container>

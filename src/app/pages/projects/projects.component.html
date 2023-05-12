@@ -1,6 +1,14 @@
 <p>PROJECTS PAGE</p>
+<div [ngStyle]="{'color': 'red'}">{{ joinErrorMessage$ | async }}</div>
+<form [formGroup]="joinProjectForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="inviteToken">Invite Token:</label>
+    <input type="text" id="inviteToken" formControlName="inviteToken" />
+  </div>
+  <button type="submit">Join Project</button>
+</form>
 <ul *ngIf="projects$ | async as projects">
   <li *ngFor="let project of projects">
-    <a [routerLink]="'./' + project.id">{{project.name}}</a>
+    <a (click)="setActiveProject(project.id)">{{project.name}}</a>
   </li>
 </ul>

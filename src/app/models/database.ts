@@ -1,6 +1,26 @@
 export interface Database {
   public: {
     Tables: {
+      project_invites: {
+        Row: {
+          id: number;
+          invite_token: string;
+          invite_token_expiration: string;
+          project_id: number;
+        };
+        Insert: {
+          id?: number;
+          invite_token: string;
+          invite_token_expiration: string;
+          project_id: number;
+        };
+        Update: {
+          id?: number;
+          invite_token?: string;
+          invite_token_expiration?: string;
+          project_id?: number;
+        };
+      };
       project_users: {
         Row: {
           project_id: number;
@@ -25,7 +45,7 @@ export interface Database {
           updated_at: string;
         };
         Insert: {
-          api_token: string | null;
+          api_token?: string | null;
           created_at: string;
           description?: string | null;
           id?: number;
@@ -119,3 +139,5 @@ export interface Database {
 }
 
 export type Project = Database['public']['Tables']['projects']['Row'];
+export type ProjectInvite =
+  Database['public']['Tables']['project_invites']['Row'];

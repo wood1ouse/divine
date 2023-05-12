@@ -5,7 +5,7 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import {filter, Observable} from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { fromAuth } from '@store/auth/auth.selectors';

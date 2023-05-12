@@ -1,3 +1,5 @@
+import { PostgrestError } from '@supabase/supabase-js';
+
 export enum ApiStatuses {
   LOADING,
   LOADED,
@@ -6,4 +8,5 @@ export enum ApiStatuses {
 
 export interface ApiState {
   status: ApiStatuses;
+  error: PostgrestError | null;
 }
