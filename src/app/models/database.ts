@@ -1,6 +1,28 @@
+import { Data } from '@angular/router';
+
 export interface Database {
   public: {
     Tables: {
+      project_invites: {
+        Row: {
+          id: number;
+          invite_token: string;
+          invite_token_expiration: string;
+          project_id: number;
+        };
+        Insert: {
+          id?: number;
+          invite_token: string;
+          invite_token_expiration: string;
+          project_id: number;
+        };
+        Update: {
+          id?: number;
+          invite_token?: string;
+          invite_token_expiration?: string;
+          project_id?: number;
+        };
+      };
       project_users: {
         Row: {
           project_id: number;
@@ -21,8 +43,6 @@ export interface Database {
           created_at: string;
           description: string | null;
           id: number;
-          invite_token: string | null;
-          invite_token_expiration: string | null;
           name: string;
           updated_at: string;
         };
@@ -31,8 +51,6 @@ export interface Database {
           created_at: string;
           description?: string | null;
           id?: number;
-          invite_token?: string | null;
-          invite_token_expiration?: string | null;
           name: string;
           updated_at: string;
         };
@@ -41,8 +59,6 @@ export interface Database {
           created_at?: string;
           description?: string | null;
           id?: number;
-          invite_token?: string | null;
-          invite_token_expiration?: string | null;
           name?: string;
           updated_at?: string;
         };
@@ -125,3 +141,5 @@ export interface Database {
 }
 
 export type Project = Database['public']['Tables']['projects']['Row'];
+export type ProjectInvite =
+  Database['public']['Tables']['project_invites']['Row'];

@@ -1,6 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromProjectsReducer from './projects.reducer';
 
+import { fromProjectInvites } from '@store/project-invites/project-invites.selectors';
+
 const selectProjectsState = createFeatureSelector<fromProjectsReducer.State>(
   fromProjectsReducer.featureKey
 );
@@ -17,16 +19,40 @@ const selectActiveProject = createSelector(
     projects.find((project) => project.id === state.activeProjectId) || null
 );
 
-const selectActiveProjectInviteTokenExpiration = createSelector(
-  selectActiveProject,
-  (project) =>
-    project && project.invite_token_expiration
-      ? project.invite_token_expiration
-      : null
-);
-
 const selectActiveProjectId = createSelector(selectActiveProject, (project) =>
   project ? project.id : null
+);
+
+const selectActiveProjectInvite = createSelector(
+  selectActiveProjectId,
+  fromProjectInvites.selectProjectInvites,
+  (activeProjectId, invites) =>
+    invites.find((invite) => invite.project_id === activeProjectId)
+);
+
+const selectActiveProjectInviteToken = createSelector(
+  selectActiveProjectInvite,
+  (activeProjectInvite) =>
+    activeProjectInvite ? activeProjectInvite.invite_token : null
+);
+
+const selectActiveProjectInviteTokenExpiration = createSelector(
+  selectActiveProjectInvite,
+  (activeProjectInvite) =>
+    activeProjectInvite ? activeProjectInvite.invite_token_expiration : null
+);
+
+const selectJoinProjectErrorMessage = createSelector(
+  selectProjectsState,
+  (state) => {
+    if (!state.error) return null;
+    switch (state.error.code) {
+      case '23505':
+        return 'You are already participating this project';
+      default:
+        return 'No such project';
+    }
+  }
 );
 
 const selectActiveProjectRemainingInviteTime = createSelector(
@@ -43,6 +69,9 @@ export const fromProject = {
   selectProjectsState,
   selectProjects,
   selectActiveProject,
+  selectActiveProjectInvite,
+  selectActiveProjectInviteToken,
+  selectJoinProjectErrorMessage,
   selectActiveProjectInviteTokenExpiration,
   selectActiveProjectId,
   selectActiveProjectRemainingInviteTime,

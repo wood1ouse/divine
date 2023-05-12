@@ -16,8 +16,9 @@ export const initialState: State = {
   projects: [],
   activeProjectId: null,
   remainingInviteTime: null,
-  status: ApiStatuses.NOT_LOADED,
   trackInviteToken: false,
+  status: ApiStatuses.NOT_LOADED,
+  error: null,
 };
 
 export const reducer = createReducer(
@@ -27,6 +28,7 @@ export const reducer = createReducer(
     (state): State => ({
       ...state,
       status: ApiStatuses.LOADING,
+      error: null,
     })
   ),
   on(
@@ -35,6 +37,7 @@ export const reducer = createReducer(
       ...state,
       projects,
       status: ApiStatuses.LOADED,
+      error: null,
     })
   ),
   on(
@@ -63,5 +66,9 @@ export const reducer = createReducer(
     ...state,
     remainingInviteTime: null,
     trackInviteToken: false,
+  })),
+  on(ProjectsActions.joinProjectFailure, (state, { error }) => ({
+    ...state,
+    error,
   }))
 );

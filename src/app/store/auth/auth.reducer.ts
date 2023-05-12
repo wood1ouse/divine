@@ -13,6 +13,7 @@ export interface State extends ApiState {
 export const initialState: State = {
   user: null,
   status: ApiStatuses.NOT_LOADED,
+  error: null,
 };
 
 export const reducer = createReducer(
@@ -23,6 +24,7 @@ export const reducer = createReducer(
     (state): State => ({
       ...state,
       status: ApiStatuses.LOADING,
+      error: null,
     })
   ),
 
@@ -34,10 +36,16 @@ export const reducer = createReducer(
       ...state,
       user,
       status: ApiStatuses.LOADED,
+      error: null,
     })
   ),
   on(
     AuthActions.signOutSuccess,
-    (state): State => ({ ...state, user: null, status: ApiStatuses.LOADED })
+    (state): State => ({
+      ...state,
+      user: null,
+      status: ApiStatuses.LOADED,
+      error: null,
+    })
   )
 );

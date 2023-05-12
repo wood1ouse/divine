@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Project } from '@models/database';
+import { PostgrestError } from '@supabase/supabase-js';
 
 const loadProjects = createAction('[Projects] Load Projects');
 
@@ -53,6 +54,21 @@ const unsubscribeToInviteToken = createAction(
   '[Projects] Unsubscribe To Invite Token'
 );
 
+const joinProject = createAction(
+  '[Projects] Join Project',
+  props<{ inviteToken: string }>()
+);
+
+const joinProjectSuccess = createAction(
+  '[Projects] Join Project Success',
+  props<{ projectId: number }>()
+);
+
+const joinProjectFailure = createAction(
+  '[Projects] Join Project Failure',
+  props<{ error: PostgrestError }>()
+);
+
 export const ProjectsActions = {
   loadProjects,
   loadProjectsSuccess,
@@ -67,4 +83,7 @@ export const ProjectsActions = {
   updateInviteTokenFailure,
   subscribeToInviteToken,
   unsubscribeToInviteToken,
+  joinProject,
+  joinProjectSuccess,
+  joinProjectFailure,
 };

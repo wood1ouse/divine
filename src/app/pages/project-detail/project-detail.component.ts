@@ -17,6 +17,8 @@ import { Observable } from 'rxjs';
 export class ProjectDetailComponent implements OnInit, OnDestroy {
   project$: Observable<Project | null>;
 
+  inviteToken$: Observable<string | null>;
+
   inviteTokenRemainingTime$: Observable<number | null>;
 
   constructor(private projectsFacade: ProjectsFacade) {}
@@ -25,6 +27,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.projectsFacade.dispatchSubscribeToInviteToken();
 
     this.project$ = this.projectsFacade.project$;
+    this.inviteToken$ = this.projectsFacade.inviteToken$;
     this.inviteTokenRemainingTime$ = this.projectsFacade.remainingInviteTime$;
   }
 

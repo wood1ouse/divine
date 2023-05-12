@@ -46,9 +46,7 @@ export class ProjectsEffects {
       ofType(ProjectsActions.createProject),
       concatMap(({ name, description }) =>
         from(this.apiProjectsService.createProject(name, description)).pipe(
-          map((response) => {
-            const { error } = response;
-            if (error) throw error;
+          map(() => {
             return ProjectsActions.createProjectSuccess();
           }),
           catchError((error) =>
@@ -146,10 +144,27 @@ export class ProjectsEffects {
 
   refetchProjects$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ProjectsActions.updateInviteTokenSuccess),
+      ofType(
+        ProjectsActions.updateInviteTokenSuccess,
+        ProjectsActions.joinProjectSuccess
+      ),
       map(() => {
         return ProjectsActions.loadProjects();
       })
+    )
+  );
+
+  joinProject$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProjectsActions.joinProject),
+      switchMap(({ inviteToken }) =>
+        from(this.apiProjectsService.joinProject(inviteToken)).pipe(
+          map((projectId) => ProjectsActions.joinProjectSuccess({ projectId })),
+          catchError((error) => {
+            return of(ProjectsActions.joinProjectFailure({ error }));
+          })
+        )
+      )
     )
   );
 
@@ -159,6 +174,17 @@ export class ProjectsEffects {
         ofType(ProjectsActions.createProjectSuccess),
         tap(() => {
           this.router.navigate(['/projects']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  redirectToProjectDetailOnJoinProjectSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProjectsActions.joinProjectSuccess),
+        tap(({ projectId }) => {
+          this.router.navigate([`/projects/${projectId}`]);
         })
       ),
     { dispatch: false }

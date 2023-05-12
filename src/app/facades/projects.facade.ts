@@ -23,6 +23,14 @@ export class ProjectsFacade {
     fromProject.selectActiveProjectRemainingInviteTime
   );
 
+  inviteToken$: Observable<string | null> = this.store.select(
+    fromProject.selectActiveProjectInviteToken
+  );
+
+  joinErrorMessage$: Observable<string | null> = this.store.select(
+    fromProject.selectJoinProjectErrorMessage
+  );
+
   dispatchLoadProjects(): void {
     this.store.dispatch(ProjectsActions.loadProjects());
   }
@@ -41,5 +49,9 @@ export class ProjectsFacade {
 
   dispatchUnsubscribeToInviteToken() {
     this.store.dispatch(ProjectsActions.unsubscribeToInviteToken());
+  }
+
+  dispatchJoinProject(inviteToken: string) {
+    this.store.dispatch(ProjectsActions.joinProject({ inviteToken }));
   }
 }
