@@ -122,6 +122,26 @@ export interface Database {
           updated_at?: string;
         };
       };
+      trello_users: {
+        Row: {
+          api_key: string;
+          id: number;
+          token: string;
+          user_id: string | null;
+        };
+        Insert: {
+          api_key: string;
+          id?: number;
+          token: string;
+          user_id?: string | null;
+        };
+        Update: {
+          api_key?: string;
+          id?: number;
+          token?: string;
+          user_id?: string | null;
+        };
+      };
     };
     Views: {
       [_ in never]: never;

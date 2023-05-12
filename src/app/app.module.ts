@@ -32,9 +32,10 @@ import {
   NbStepperModule,
   NbThemeModule,
 } from '@nebular/theme';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ProjectCreateComponent } from '@pages/project-create/project-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TrelloInterceptor } from './api/trello.interceptor';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -82,7 +83,9 @@ const STORE = [
     NbInputModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TrelloInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

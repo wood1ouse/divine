@@ -2,7 +2,6 @@
   &__container {
     width: 100%;
     display: flex;
-    justify-content: end;
   }
 
   &__user {
@@ -18,9 +17,32 @@
     width: 100px;
     height: 32px;
     transition: .1s background-color linear;
+
     &:hover {
       background-color: #F6F7F9;
     }
   }
 
+  &__trello-username {
+    display: flex;
+    border-radius: 25px;
+    justify-content: center;
+    align-items: center;
+    background: cornflowerblue;
+    color: white;
+    padding: 10px;
+  }
+
 }
+
+nb-user {
+  transition: .3s margin linear;
+  left: 0;
+  position: relative;
+
+  &.right-side {
+    transition: left .3s linear;
+    left: 82%;
+  }
+}
+
