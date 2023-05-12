@@ -67,7 +67,7 @@ export class ProjectsEffects {
                 fromProject.selectActiveProjectInviteTokenExpiration
               )
             ),
-            switchMap(([_, expiration]) => {
+            switchMap(([, expiration]) => {
               if (!expiration) {
                 return EMPTY;
               }
@@ -102,7 +102,7 @@ export class ProjectsEffects {
               this.store.select(fromProject.selectActiveProjectId)
             ),
             filter(([, , projectId]) => !!projectId),
-            switchMap(([_, remainingTime, projectId]) => {
+            switchMap(([, remainingTime, projectId]) => {
               if (remainingTime! <= 1000 && projectId) {
                 return from(
                   this.apiProjectsService.updateInviteToken(projectId)
