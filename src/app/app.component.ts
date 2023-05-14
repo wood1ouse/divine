@@ -3,7 +3,6 @@ import { AuthFacade } from '@facades/auth.facade';
 import { User } from '@supabase/supabase-js';
 import { Observable } from 'rxjs';
 import { TrelloFacade } from '@facades/trello.facade';
-import { ApiTrelloService } from './api/api.trello.service';
 
 @Component({
   selector: 'divine-root',

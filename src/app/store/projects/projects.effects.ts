@@ -7,9 +7,8 @@ import {
   tap,
   withLatestFrom,
   switchMap,
-  mergeMap,
 } from 'rxjs/operators';
-import { EMPTY, filter, from, interval, of } from 'rxjs';
+import { EMPTY, filter, from, interval, Observable, of } from 'rxjs';
 import { ProjectsActions } from './projects.actions';
 import { ApiProjectsService } from '../../api/api.projects.service';
 import {
@@ -20,6 +19,8 @@ import {
 } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { fromProject } from '@store/projects/projects.selectors';
+import { ProjectInviteActions } from '@store/project-invites/project-invites.actions';
+import { fromProjectInvite } from '@store/project-invites/project-invites.selectors';
 
 @Injectable()
 export class ProjectsEffects {
@@ -59,12 +60,13 @@ export class ProjectsEffects {
 
   updateRemainingTime$ = createEffect(() =>
     this.isTrackingInviteToken$.pipe(
-      switchMap((isTracking) => {
-        if (isTracking) {
+      withLatestFrom(this.store.select(fromProject.selectUserIsOwner)),
+      switchMap(([isTracking, userIsOwner]) => {
+        if (isTracking && userIsOwner) {
           return interval(1000).pipe(
             withLatestFrom(
               this.store.select(
-                fromProject.selectActiveProjectInviteTokenExpiration
+                fromProjectInvite.selectActiveProjectInviteTokenExpiration
               )
             ),
             switchMap(([, expiration]) => {
@@ -92,8 +94,9 @@ export class ProjectsEffects {
 
   checkInviteToken$ = createEffect(() =>
     this.isTrackingInviteToken$.pipe(
-      switchMap((isTracking) => {
-        if (isTracking) {
+      withLatestFrom(this.store.select(fromProject.selectUserIsOwner)),
+      switchMap(([isTracking, userIsOwner]) => {
+        if (isTracking && userIsOwner) {
           return interval(1000).pipe(
             withLatestFrom(
               this.store.select(
@@ -101,12 +104,12 @@ export class ProjectsEffects {
               ),
               this.store.select(fromProject.selectActiveProjectId)
             ),
-            filter(([, , projectId]) => !!projectId),
-            switchMap(([, remainingTime, projectId]) => {
+            concatMap(([, remainingTime, projectId]) => {
               if (remainingTime! <= 1000 && projectId) {
                 return from(
                   this.apiProjectsService.updateInviteToken(projectId)
                 ).pipe(
+                  tap((f) => console.log('f')),
                   map(() => ProjectsActions.updateInviteTokenSuccess()),
                   catchError((error) => {
                     console.log(error);
@@ -125,29 +128,40 @@ export class ProjectsEffects {
     )
   );
 
-  setActiveProjectFromRoute$ = createEffect(() =>
-    this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      map(() => this.route),
-      map((route) => {
-        while (route.firstChild) {
-          route = route.firstChild;
-        }
-        return route;
-      }),
-      filter((route) => route.outlet === 'primary'),
-      mergeMap((route) => route.paramMap),
-      map((params: ParamMap) => parseInt(params.get('projectId') || '', 10)),
-      map((projectId) => ProjectsActions.setActiveProject({ projectId }))
+  refetchProjectInviteOnUpdateTokenSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProjectsActions.updateInviteTokenSuccess),
+      map(() => {
+        return ProjectInviteActions.loadProjectInvite();
+      })
     )
+  );
+
+  setActiveProjectFromRoute$ = createEffect(
+    () =>
+      this.router.events.pipe(
+        filter((event) => event instanceof NavigationEnd),
+        switchMap((): Observable<ParamMap> => {
+          let route = this.route;
+          while (route.firstChild) {
+            route = route.firstChild;
+          }
+          return route.paramMap;
+        }),
+        map((params: ParamMap) =>
+          params.has('projectId') ? +params.get('projectId')! : null
+        ),
+        filter((projectId) => !!projectId),
+        map((projectId) =>
+          ProjectsActions.setActiveProject({ projectId: projectId || 26 })
+        )
+      ),
+    { dispatch: true }
   );
 
   refetchProjects$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        ProjectsActions.updateInviteTokenSuccess,
-        ProjectsActions.joinProjectSuccess
-      ),
+      ofType(ProjectsActions.joinProjectSuccess),
       map(() => {
         return ProjectsActions.loadProjects();
       })

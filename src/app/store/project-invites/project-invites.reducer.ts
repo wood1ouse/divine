@@ -1,35 +1,35 @@
 import { createReducer, on } from '@ngrx/store';
-import { ProjectInvitesActions } from './project-invites.actions';
+import { ProjectInviteActions } from './project-invites.actions';
 import { ProjectInvite } from '@models/database';
 import { ApiState, ApiStatuses } from '@models/store';
 
 export const featureKey = 'projectInvites';
 
 export interface State extends ApiState {
-  projectInvites: ProjectInvite[];
+  projectInvite: ProjectInvite | null;
 }
 
 export const initialState: State = {
-  projectInvites: [],
+  projectInvite: null,
   status: ApiStatuses.NOT_LOADED,
   error: null,
 };
 
 export const reducer = createReducer(
   initialState,
-  on(ProjectInvitesActions.loadProjectInvites, (state) => ({
+  on(ProjectInviteActions.loadProjectInvite, (state) => ({
     ...state,
     status: ApiStatuses.LOADING,
   })),
   on(
-    ProjectInvitesActions.loadProjectInvitesSuccess,
-    (state, { projectInvites }) => ({
+    ProjectInviteActions.loadProjectInviteSuccess,
+    (state, { projectInvite }) => ({
       ...state,
-      projectInvites,
+      projectInvite,
       status: ApiStatuses.LOADED,
     })
   ),
-  on(ProjectInvitesActions.loadProjectInvitesFailure, (state) => ({
+  on(ProjectInviteActions.loadProjectInviteFailure, (state) => ({
     ...state,
     status: ApiStatuses.NOT_LOADED,
   }))

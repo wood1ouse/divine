@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, concatMap, switchMap, tap } from 'rxjs/operators';
-import { of, from, EMPTY, filter } from 'rxjs';
+import { of, from, filter } from 'rxjs';
 import { TrelloActions } from './trello.actions';
 import { ApiTrelloService } from '../../api/api.trello.service';
 import { Store } from '@ngrx/store';

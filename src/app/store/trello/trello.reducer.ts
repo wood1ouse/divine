@@ -1,4 +1,4 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { TrelloActions } from './trello.actions';
 import { ApiState, ApiStatuses } from '@models/store';
 

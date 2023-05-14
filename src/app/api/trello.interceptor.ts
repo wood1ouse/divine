@@ -11,16 +11,8 @@ import {
   trelloPrefix,
   trelloServiceUrl,
 } from './endpoints';
-import { createClient } from '@supabase/supabase-js';
-import { Database } from '@models/database';
-import { environment } from '../../environments/environment';
 
 export class TrelloInterceptor implements HttpInterceptor {
-  private supabase = createClient<Database>(
-    environment['SUPABASE_URL'],
-    environment['SUPABASE_KEY']
-  );
-
   intercept(
     req: HttpRequest<unknown>,
     next: HttpHandler

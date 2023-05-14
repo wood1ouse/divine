@@ -42,6 +42,7 @@ export interface Database {
           description: string | null;
           id: number;
           name: string;
+          owner_id: string | null;
           updated_at: string;
         };
         Insert: {
@@ -50,6 +51,7 @@ export interface Database {
           description?: string | null;
           id?: number;
           name: string;
+          owner_id?: string | null;
           updated_at: string;
         };
         Update: {
@@ -58,6 +60,7 @@ export interface Database {
           description?: string | null;
           id?: number;
           name?: string;
+          owner_id?: string | null;
           updated_at?: string;
         };
       };
@@ -161,3 +164,4 @@ export interface Database {
 export type Project = Database['public']['Tables']['projects']['Row'];
 export type ProjectInvite =
   Database['public']['Tables']['project_invites']['Row'];
+export type TestSuite = Database['public']['Tables']['test_suites']['Row'];

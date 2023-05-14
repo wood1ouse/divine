@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromProjectsReducer from './projects.reducer';
-
-import { fromProjectInvites } from '@store/project-invites/project-invites.selectors';
+import { fromAuth } from '@store/auth/auth.selectors';
 
 const selectProjectsState = createFeatureSelector<fromProjectsReducer.State>(
   fromProjectsReducer.featureKey
@@ -23,23 +22,13 @@ const selectActiveProjectId = createSelector(selectActiveProject, (project) =>
   project ? project.id : null
 );
 
-const selectActiveProjectInvite = createSelector(
-  selectActiveProjectId,
-  fromProjectInvites.selectProjectInvites,
-  (activeProjectId, invites) =>
-    invites.find((invite) => invite.project_id === activeProjectId)
-);
-
-const selectActiveProjectInviteToken = createSelector(
-  selectActiveProjectInvite,
-  (activeProjectInvite) =>
-    activeProjectInvite ? activeProjectInvite.invite_token : null
-);
-
-const selectActiveProjectInviteTokenExpiration = createSelector(
-  selectActiveProjectInvite,
-  (activeProjectInvite) =>
-    activeProjectInvite ? activeProjectInvite.invite_token_expiration : null
+const selectUserIsOwner = createSelector(
+  fromAuth.selectUser,
+  selectActiveProject,
+  (user, activeProject) => {
+    if (!activeProject || !user) return false;
+    return user && user.id === activeProject.owner_id;
+  }
 );
 
 const selectJoinProjectErrorMessage = createSelector(
@@ -57,7 +46,9 @@ const selectJoinProjectErrorMessage = createSelector(
 
 const selectActiveProjectRemainingInviteTime = createSelector(
   selectProjectsState,
-  (state) => (state.remainingInviteTime ? state.remainingInviteTime : null)
+  selectUserIsOwner,
+  (state, userIsOwner) =>
+    state.remainingInviteTime && userIsOwner ? state.remainingInviteTime : null
 );
 
 const selectTrackInviteToken = createSelector(
@@ -69,11 +60,9 @@ export const fromProject = {
   selectProjectsState,
   selectProjects,
   selectActiveProject,
-  selectActiveProjectInvite,
-  selectActiveProjectInviteToken,
   selectJoinProjectErrorMessage,
-  selectActiveProjectInviteTokenExpiration,
   selectActiveProjectId,
+  selectUserIsOwner,
   selectActiveProjectRemainingInviteTime,
   selectTrackInviteToken,
 };
