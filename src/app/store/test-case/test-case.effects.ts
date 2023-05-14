@@ -61,7 +61,10 @@ export class TestCaseEffects {
 
   refetchTestCasesOnCreateTestCaseSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(TestCaseActions.createTestCaseSuccess),
+      ofType(
+        TestCaseActions.createTestCaseSuccess,
+        TestCaseActions.setActiveTestCase
+      ),
       map(() => {
         return TestCaseActions.loadTestCases();
       })

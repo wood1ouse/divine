@@ -7,7 +7,7 @@ import {
   withLatestFrom,
   tap,
 } from 'rxjs/operators';
-import { of, from, EMPTY } from 'rxjs';
+import { of, from, EMPTY, filter } from 'rxjs';
 import { TestSuiteActions } from './test-suite.actions';
 import { fromProject } from '@store/projects/projects.selectors';
 import { Store } from '@ngrx/store';
@@ -21,6 +21,7 @@ export class TestSuiteEffects {
       ofType(TestSuiteActions.loadTestSuites),
       withLatestFrom(this.store.select(fromProject.selectActiveProjectId)),
       concatMap(([, projectId]) => {
+        console.log(projectId);
         if (projectId) {
           return from(this.apiTestSuitesService.getTestSuites(projectId)).pipe(
             map((testSuites) =>
