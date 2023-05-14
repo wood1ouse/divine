@@ -10,7 +10,13 @@ const selectTestSuites = createSelector(
   (state) => state.testSuites
 );
 
+const selectActiveTestSuiteId = createSelector(
+  selectTestSuiteState,
+  (state) => state.activeTestSuiteId
+);
+
 export const fromTestSuite = {
   selectTestSuiteState,
   selectTestSuites,
+  selectActiveTestSuiteId,
 };

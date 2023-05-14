@@ -29,6 +29,11 @@ const createTestSuiteFailure = createAction(
   props<{ error: PostgrestError }>()
 );
 
+const setActiveTestSuite = createAction(
+  '[TestSuite] Set Active Test Suite',
+  props<{ testSuiteId: number }>()
+);
+
 export const TestSuiteActions = {
   loadTestSuites,
   loadTestSuitesSuccess,
@@ -36,4 +41,5 @@ export const TestSuiteActions = {
   createTestSuite,
   createTestSuiteSuccess,
   createTestSuiteFailure,
+  setActiveTestSuite,
 };

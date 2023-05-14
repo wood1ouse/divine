@@ -7,10 +7,12 @@ export const featureKey = 'testSuite';
 
 export interface State extends ApiState {
   testSuites: TestSuite[];
+  activeTestSuiteId: number | null;
 }
 
 export const initialState: State = {
   testSuites: [],
+  activeTestSuiteId: null,
   status: ApiStatuses.NOT_LOADED,
   error: null,
 };
@@ -38,5 +40,9 @@ export const reducer = createReducer(
     ...state,
     status: ApiStatuses.NOT_LOADED,
     error,
+  })),
+  on(TestSuiteActions.setActiveTestSuite, (state, { testSuiteId }) => ({
+    ...state,
+    activeTestSuiteId: testSuiteId,
   }))
 );

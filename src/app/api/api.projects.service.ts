@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  createClient,
-  PostgrestResponse,
-  PostgrestSingleResponse,
-} from '@supabase/supabase-js';
+import { createClient, PostgrestSingleResponse } from '@supabase/supabase-js';
 import { environment } from 'environments/environment';
 import { Database, Project, ProjectInvite } from '@models/database';
 

@@ -12,7 +12,7 @@ import { TestSuiteActions } from './test-suite.actions';
 import { fromProject } from '@store/projects/projects.selectors';
 import { Store } from '@ngrx/store';
 import { ApiTestSuiteService } from '../../api/api.test-suite.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class TestSuiteEffects {
@@ -64,7 +64,7 @@ export class TestSuiteEffects {
     );
   });
 
-  refetchTestSuites$ = createEffect(() =>
+  refetchTestSuitesOnCreateTestSuiteSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TestSuiteActions.createTestSuiteSuccess),
       map(() => {
@@ -79,12 +79,9 @@ export class TestSuiteEffects {
         ofType(TestSuiteActions.createTestSuiteSuccess),
         withLatestFrom(this.store.select(fromProject.selectActiveProjectId)),
         tap(([{ testSuiteId }, projectId]) => {
-          this.router.navigate(
-            [`/projects/${projectId}/test-suites/${testSuiteId}`],
-            {
-              relativeTo: this.activatedRoute,
-            }
-          );
+          this.router.navigate([
+            `/projects/${projectId}/test-suites/${testSuiteId}`,
+          ]);
         })
       ),
     { dispatch: false }
@@ -94,7 +91,6 @@ export class TestSuiteEffects {
     private store: Store,
     private actions$: Actions,
     private apiTestSuitesService: ApiTestSuiteService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    private router: Router
   ) {}
 }

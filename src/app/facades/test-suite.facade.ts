@@ -24,4 +24,8 @@ export class TestSuiteFacade {
       TestSuiteActions.createTestSuite({ name, description })
     );
   }
+
+  dispatchSetActiveTestSuite(testSuiteId: number): void {
+    this.store.dispatch(TestSuiteActions.setActiveTestSuite({ testSuiteId }));
+  }
 }

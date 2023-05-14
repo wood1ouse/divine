@@ -29,13 +29,18 @@ import {
   NbCardModule,
   NbInputModule,
   NbLayoutModule,
+  NbSelectWithAutocompleteModule,
   NbStepperModule,
   NbThemeModule,
+  NbWindowModule,
 } from '@nebular/theme';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ProjectCreateComponent } from '@pages/project-create/project-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TrelloInterceptor } from './api/trello.interceptor';
+import { AngularMarkdownEditorModule } from 'angular-markdown-editor';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+import { TestCaseCreateComponent } from './pages/test-case-create/test-case-create.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -67,6 +72,7 @@ const STORE = [
     EmailConfirmComponent,
     ...COMPONENTS,
     ProjectCreateComponent,
+    TestCaseCreateComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +87,25 @@ const STORE = [
     NbStepperModule,
     NbCardModule,
     NbInputModule,
+    NbWindowModule.forRoot({}),
     ReactiveFormsModule,
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          breaks: false,
+          pedantic: false,
+          smartLists: true,
+          smartypants: false,
+        },
+      },
+    }),
+    ReactiveFormsModule,
+    AngularMarkdownEditorModule.forRoot({
+      iconlibrary: 'fa',
+    }),
+    NbSelectWithAutocompleteModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TrelloInterceptor, multi: true },

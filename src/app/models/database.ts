@@ -165,3 +165,4 @@ export type Project = Database['public']['Tables']['projects']['Row'];
 export type ProjectInvite =
   Database['public']['Tables']['project_invites']['Row'];
 export type TestSuite = Database['public']['Tables']['test_suites']['Row'];
+export type TestCase = Database['public']['Tables']['test_cases']['Row'];
