@@ -23,10 +23,6 @@ export class ProjectsFacade {
     fromProject.selectActiveProjectRemainingInviteTime
   );
 
-  inviteToken$: Observable<string | null> = this.store.select(
-    fromProject.selectActiveProjectInviteToken
-  );
-
   joinErrorMessage$: Observable<string | null> = this.store.select(
     fromProject.selectJoinProjectErrorMessage
   );

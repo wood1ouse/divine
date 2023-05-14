@@ -1,12 +1,13 @@
 <div class="header__container">
-  <nb-user
-    *ngIf="email"
-    [name]="email"
-    [nbPopover]="popOverRef"
-    [nbPopoverPlacement]="'bottom'"
-    [nbPopoverOffset]="20"
-    class="header__user"
-    >{{ email }}</nb-user>
+  <div *ngIf="trelloUserName" class="header__trello-username">{{ trelloUserName ? trelloUserName : '' }}</div>
+  <nb-user [ngClass]="{'right-side': trelloUserName}"
+           *ngIf="email"
+           [name]="email"
+           [nbPopover]="popOverRef"
+           [nbPopoverPlacement]="'bottom'"
+           [nbPopoverOffset]="20"
+           class="header__user"
+  > {{ email }}</nb-user>
 </div>
 
 <ng-template #popOverRef>

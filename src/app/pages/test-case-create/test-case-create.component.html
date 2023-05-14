@@ -1,0 +1,24 @@
+<form [formGroup]="testCaseCreateForm" (ngSubmit)="onTestCaseCreate()" class="space-y-4">
+  <div>
+    <label for="title" class="block text-sm font-medium">Title</label>
+    <input id="title" formControlName="title" type="text" class="mt-1 block w-full" />
+  </div>
+  <div>
+    <label>Description</label>
+    <angular-markdown-editor formControlName="description"
+                             [textareaId]="'editor'"
+                             [options]="editorOptions"
+                             [rows]="48">
+    </angular-markdown-editor>
+  </div>
+
+  <nb-select formControlName="status">
+    <nb-option *ngFor="let status of ['Status 1', 'Status 2', 'Status 3']" [value]="status">
+      {{ status }}
+    </nb-option>
+  </nb-select>
+
+  <button type="submit">
+    Create
+  </button>
+</form>

@@ -1,0 +1,9 @@
+nb-card {
+  cursor: pointer;
+  filter: none;
+  transition: all .3s linear;
+
+  &:hover {
+    filter: brightness(0.85);
+  }
+}

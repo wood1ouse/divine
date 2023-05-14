@@ -1,2 +1,7 @@
-<p>TEST CASES PAGE</p>
-<a routerLink="./fff">First Test Case</a>
+<div *ngIf="testCases$ | async as testCases">
+  <nb-card size="tiny" (click)="onTestCaseClick(testCase.id)" *ngFor="let testCase of testCases">
+    <a>{{testCase.title}}</a>
+  </nb-card>
+</div>
+
+<button nbButton (click)="openWindow()">Create Test Case</button>

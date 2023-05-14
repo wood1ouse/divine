@@ -7,6 +7,15 @@
   </div>
   <button type="submit">Join Project</button>
 </form>
+<form [formGroup]="linkWithTrelloForm" (ngSubmit)="onTrelloLink()">
+  <div>
+    <label for="inviteToken">API Key:</label>
+    <input type="text" id="apiKey" formControlName="apiKey" />
+    <label for="inviteToken">Token:</label>
+    <input type="text" id="token" formControlName="token" />
+  </div>
+  <button type="submit">Link With Trello</button>
+</form>
 <ul *ngIf="projects$ | async as projects">
   <li *ngFor="let project of projects">
     <a (click)="setActiveProject(project.id)">{{project.name}}</a>

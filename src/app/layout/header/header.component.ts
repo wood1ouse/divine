@@ -10,6 +10,8 @@ import { User } from '@supabase/supabase-js';
 export class HeaderComponent {
   constructor(private authFacade: AuthFacade) {}
 
+  @Input() trelloUserName: string | null;
+
   @Input() email: string | null;
 
   @Input() user: User | null;

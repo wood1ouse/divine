@@ -1,1 +1,20 @@
-<p>TEST CASE DETAIL PAGE</p>
+<nb-card *ngIf="testCase$ | async as testCase">
+  <form [formGroup]="testCaseUpdateForm" (ngSubmit)="onTestCaseUpdate()" class="space-y-4">
+    <input nbInput id="title" formControlName="title" type="text" class="mt-1 block w-full" />
+    <angular-markdown-editor nbInput formControlName="description"
+                             [textareaId]="'editor'"
+                             [options]="editorOptions"
+                             [rows]="12">
+    </angular-markdown-editor>
+
+    <nb-select formControlName="status">
+      <nb-option *ngFor="let status of ['Status 1', 'Status 2', 'Status 3']" [value]="status">
+        {{ status }}
+      </nb-option>
+    </nb-select>
+
+    <button nbButton type="submit">
+      Update
+    </button>
+  </form>
+</nb-card>

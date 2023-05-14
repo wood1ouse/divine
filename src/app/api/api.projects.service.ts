@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  createClient,
-  PostgrestResponse,
-  PostgrestSingleResponse,
-} from '@supabase/supabase-js';
+import { createClient, PostgrestSingleResponse } from '@supabase/supabase-js';
 import { environment } from 'environments/environment';
 import { Database, Project, ProjectInvite } from '@models/database';
 
@@ -52,31 +48,50 @@ export class ApiProjectsService {
     name: string,
     description?: string
   ): Promise<PostgrestSingleResponse<null>> {
+    const { data: ownerData, error: ownerError } =
+      await this.supabase.auth.getUser();
+
+    if (!ownerData || !ownerData.user || ownerError) throw ownerError;
+
     return this.supabase.from('projects').insert({
       name,
       description,
       api_token: uuidv4(),
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
+      owner_id: ownerData.user.id,
     });
   }
 
   async updateInviteToken(projectId: number) {
     const currentTime = new Date();
 
-    return this.supabase
+    const { data, error } = await this.supabase
       .from('project_invites')
       .update({
         invite_token: uuidv4(),
         invite_token_expiration: new Date(
-          currentTime.getTime() + 30 * 60 * 1000
+          currentTime.getTime() + 10 * 1000
         ).toISOString(),
       })
-      .match({ project_id: projectId });
+      .match({ project_id: projectId })
+      .select()
+      .single();
+
+    if (!data || error) throw error;
+
+    return data;
   }
 
-  async getProjectInvites(): Promise<PostgrestResponse<ProjectInvite>> {
-    return this.supabase.from('project_invites').select('*');
+  async getProjectInvite(projectId: number): Promise<ProjectInvite> {
+    const { data, error } = await this.supabase
+      .from('project_invites')
+      .select('*')
+      .eq('project_id', projectId)
+      .single();
+    if (!data || error) throw Error;
+
+    return data;
   }
 
   async joinProject(inviteToken: string): Promise<number> {

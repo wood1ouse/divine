@@ -7,6 +7,7 @@ import {
 import { ProjectsFacade } from '@facades/projects.facade';
 import { Project } from '@models/database';
 import { Observable } from 'rxjs';
+import { ProjectInviteFacade } from '@facades/project-invite.facade';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,13 +22,17 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
   inviteTokenRemainingTime$: Observable<number | null>;
 
-  constructor(private projectsFacade: ProjectsFacade) {}
+  constructor(
+    private projectsFacade: ProjectsFacade,
+    private projectInviteFacade: ProjectInviteFacade
+  ) {}
 
   ngOnInit() {
     this.projectsFacade.dispatchSubscribeToInviteToken();
+    this.projectInviteFacade.dispatchLoadProjectInvite();
 
     this.project$ = this.projectsFacade.project$;
-    this.inviteToken$ = this.projectsFacade.inviteToken$;
+    this.inviteToken$ = this.projectInviteFacade.projectInviteToken$;
     this.inviteTokenRemainingTime$ = this.projectsFacade.remainingInviteTime$;
   }
 

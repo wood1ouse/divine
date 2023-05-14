@@ -42,6 +42,7 @@ export interface Database {
           description: string | null;
           id: number;
           name: string;
+          owner_id: string | null;
           updated_at: string;
         };
         Insert: {
@@ -50,6 +51,7 @@ export interface Database {
           description?: string | null;
           id?: number;
           name: string;
+          owner_id?: string | null;
           updated_at: string;
         };
         Update: {
@@ -58,6 +60,7 @@ export interface Database {
           description?: string | null;
           id?: number;
           name?: string;
+          owner_id?: string | null;
           updated_at?: string;
         };
       };
@@ -122,6 +125,26 @@ export interface Database {
           updated_at?: string;
         };
       };
+      trello_users: {
+        Row: {
+          api_key: string;
+          id: number;
+          token: string;
+          user_id: string | null;
+        };
+        Insert: {
+          api_key: string;
+          id?: number;
+          token: string;
+          user_id?: string | null;
+        };
+        Update: {
+          api_key?: string;
+          id?: number;
+          token?: string;
+          user_id?: string | null;
+        };
+      };
     };
     Views: {
       [_ in never]: never;
@@ -141,3 +164,5 @@ export interface Database {
 export type Project = Database['public']['Tables']['projects']['Row'];
 export type ProjectInvite =
   Database['public']['Tables']['project_invites']['Row'];
+export type TestSuite = Database['public']['Tables']['test_suites']['Row'];
+export type TestCase = Database['public']['Tables']['test_cases']['Row'];

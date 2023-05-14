@@ -1,37 +1,20 @@
-<form class="space-y-4">
+<ul *ngIf="testSuites$ | async as testSuites">
+  <li (click)="onTestSuiteClick(testSuite.id)" *ngFor="let testSuite of testSuites">
+    <a>{{testSuite.name}}</a>
+  </li>
+</ul>
+<form [formGroup]="testSuiteCreateForm" (ngSubmit)="onTestSuiteCreate()" class="space-y-4">
   <div>
-    <label for="title" class="block text-sm font-medium">Title</label>
-    <input id="title" type="text" class="mt-1 block w-full" />
+    <label for="name" class="block text-sm font-medium">Name</label>
+    <input id="name" formControlName="name" type="text" class="mt-1 block w-full" />
   </div>
   <div>
     <label for="description" class="block text-sm font-medium"
-      >Description</label
+    >Description</label
     >
-    <textarea id="description" rows="3" class="mt-1 block w-full"></textarea>
-  </div>
-  <div>
-    <label for="steps" class="block text-sm font-medium">Steps</label>
-    <textarea id="steps" rows="3" class="mt-1 block w-full"></textarea>
-  </div>
-  <div>
-    <label for="expected_result" class="block text-sm font-medium"
-      >Expected Result</label
-    >
-    <textarea
-      id="expected_result"
-      rows="3"
-      class="mt-1 block w-full"
-    ></textarea>
-  </div>
-  <div>
-    <label for="status" class="block text-sm font-medium">Status</label>
-    <select id="status" class="mt-1 block w-full">
-      <option value="Not Executed">Not Executed</option>
-      <option value="Passed">Passed</option>
-      <option value="Failed">Failed</option>
-    </select>
+    <textarea id="description" formControlName="description" rows="3" class="mt-1 block w-full"></textarea>
   </div>
   <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-    Save
+    Create
   </button>
 </form>
