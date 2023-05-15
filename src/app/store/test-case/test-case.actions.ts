@@ -21,7 +21,13 @@ const setActiveTestCase = createAction(
 
 const createTestCase = createAction(
   '[TestSuite] Create Case Suite',
-  props<{ title: string; description: string; status: string }>()
+  props<{
+    title: string;
+    description: string;
+    status: string;
+    trelloBoardId?: string;
+    trelloCardId?: string;
+  }>()
 );
 
 const createTestCaseSuccess = createAction(
@@ -34,6 +40,26 @@ const createTestCaseFailure = createAction(
   props<{ error: PostgrestError }>()
 );
 
+const updateTestCase = createAction(
+  '[TestSuite] Update Case Suite',
+  props<{
+    title: string;
+    description: string;
+    status: string;
+    trelloBoardId?: string;
+    trelloCardId?: string;
+  }>()
+);
+
+const updateTestCaseSuccess = createAction(
+  '[TestSuite] Update Test Case Success'
+);
+
+const updateTestCaseFailure = createAction(
+  '[TestSuite] Update Test Case Failure',
+  props<{ error: PostgrestError }>()
+);
+
 export const TestCaseActions = {
   loadTestCases,
   loadTestCasesSuccess,
@@ -42,4 +68,7 @@ export const TestCaseActions = {
   createTestCase,
   createTestCaseSuccess,
   createTestCaseFailure,
+  updateTestCase,
+  updateTestCaseSuccess,
+  updateTestCaseFailure,
 };

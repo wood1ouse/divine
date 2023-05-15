@@ -11,12 +11,7 @@ import {
 import { EMPTY, filter, from, interval, of } from 'rxjs';
 import { ProjectsActions } from './projects.actions';
 import { ApiProjectsService } from '../../api/api.projects.service';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  ParamMap,
-  Router,
-} from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { fromProject } from '@store/projects/projects.selectors';
 import { ProjectInviteActions } from '@store/project-invites/project-invites.actions';
@@ -111,10 +106,8 @@ export class ProjectsEffects {
                 return from(
                   this.apiProjectsService.updateInviteToken(projectId)
                 ).pipe(
-                  tap((f) => console.log('f')),
                   map(() => ProjectsActions.updateInviteTokenSuccess()),
                   catchError((error) => {
-                    console.log(error);
                     return of(ProjectsActions.updateInviteTokenFailure());
                   })
                 );
@@ -154,8 +147,6 @@ export class ProjectsEffects {
         const projectId = parseInt(route.snapshot.params['projectId']);
         const testSuiteId = parseInt(route.snapshot.params['testSuiteId']);
         const testCaseId = parseInt(route.snapshot.params['testCaseId']);
-
-        console.log(projectId, testSuiteId, testCaseId);
 
         return of(
           ProjectsActions.setActiveProject({
@@ -217,7 +208,6 @@ export class ProjectsEffects {
     private store: Store,
     private actions$: Actions,
     private apiProjectsService: ApiProjectsService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {}
 }

@@ -31,6 +31,7 @@ import {
   NbLayoutModule,
   NbSelectWithAutocompleteModule,
   NbStepperModule,
+  NbTagModule,
   NbThemeModule,
   NbWindowModule,
 } from '@nebular/theme';
@@ -87,6 +88,7 @@ const STORE = [
     NbStepperModule,
     NbCardModule,
     NbInputModule,
+    NbTagModule,
     NbWindowModule.forRoot({}),
     ReactiveFormsModule,
     MarkdownModule.forRoot({

@@ -2,6 +2,8 @@
   &__container {
     width: 100%;
     display: flex;
+    justify-content: end;
+    align-items: center;
   }
 
   &__user {
@@ -9,40 +11,34 @@
   }
 
   &__popover-menu {
-    color: #DB2C66;
-    cursor: pointer;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 32px;
-    transition: .1s background-color linear;
+    flex-direction: column;
+    width: 200px;
 
-    &:hover {
-      background-color: #F6F7F9;
+    &__row {
+      height: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #F6F7F9;
+      }
     }
+
+    &__username {
+      background-color: cornflowerblue;
+    }
+
   }
 
   &__trello-username {
-    display: flex;
-    border-radius: 25px;
-    justify-content: center;
-    align-items: center;
-    background: cornflowerblue;
-    color: white;
-    padding: 10px;
+    margin-right: 18px;
   }
 
 }
 
-nb-user {
-  transition: .3s margin linear;
-  left: 0;
-  position: relative;
-
-  &.right-side {
-    transition: left .3s linear;
-    left: 82%;
-  }
+nb-user, nb-icon {
+  margin-right: 18px;
 }
-

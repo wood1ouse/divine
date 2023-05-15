@@ -68,34 +68,34 @@ export interface Database {
         Row: {
           created_at: string;
           description: string | null;
-          expected_result: string | null;
           id: number;
           status: string;
-          steps: string | null;
           test_suite_id: number;
           title: string;
+          trello_board_id: string | null;
+          trello_card_id: string | null;
           updated_at: string;
         };
         Insert: {
           created_at: string;
           description?: string | null;
-          expected_result?: string | null;
           id?: number;
           status?: string;
-          steps?: string | null;
           test_suite_id: number;
           title: string;
+          trello_board_id?: string | null;
+          trello_card_id?: string | null;
           updated_at: string;
         };
         Update: {
           created_at?: string;
           description?: string | null;
-          expected_result?: string | null;
           id?: number;
           status?: string;
-          steps?: string | null;
           test_suite_id?: number;
           title?: string;
+          trello_board_id?: string | null;
+          trello_card_id?: string | null;
           updated_at?: string;
         };
       };

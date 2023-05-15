@@ -25,5 +25,6 @@ export const TrelloEndpoints = {
   },
   cards: {
     getCardsOnBoard: (boardId: string) => `boards/${boardId}/cards`,
+    getListOnCard: (cardId: string) => `cards/${cardId}/list`,
   },
 };

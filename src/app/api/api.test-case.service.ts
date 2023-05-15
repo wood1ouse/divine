@@ -27,7 +27,9 @@ export class ApiTestCaseService {
     title: string,
     description: string,
     status: string,
-    testSuiteId: number
+    testSuiteId: number,
+    trelloBoardId?: string,
+    trelloCardId?: string
   ): Promise<number> {
     const { data, error } = await this.supabase
       .from('test_cases')
@@ -36,6 +38,8 @@ export class ApiTestCaseService {
         description,
         status,
         test_suite_id: testSuiteId,
+        trello_board_id: trelloBoardId,
+        trello_card_id: trelloCardId,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
@@ -45,5 +49,30 @@ export class ApiTestCaseService {
     if (!data || error) throw Error();
 
     return data.id;
+  }
+
+  async updateTestCase(
+    title: string,
+    description: string,
+    status: string,
+    testCaseId: number,
+    trelloBoardId?: string,
+    trelloCardId?: string
+  ): Promise<null> {
+    const { data, error } = await this.supabase
+      .from('test_cases')
+      .update({
+        title,
+        description,
+        status,
+        trello_board_id: trelloBoardId,
+        trello_card_id: trelloCardId,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', testCaseId);
+
+    if (error) throw Error();
+
+    return data;
   }
 }

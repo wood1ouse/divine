@@ -1,7 +1,7 @@
 <div class="header__container">
-  <div *ngIf="trelloUserName" class="header__trello-username">{{ trelloUserName ? trelloUserName : '' }}</div>
-  <nb-user [ngClass]="{'right-side': trelloUserName}"
-           *ngIf="email"
+  <div class="header__trello-username">{{trelloUserName}}</div>
+  <nb-icon *ngIf="trelloUserName" status="success" icon="link-outline"></nb-icon>
+  <nb-user *ngIf="email"
            [name]="email"
            [nbPopover]="popOverRef"
            [nbPopoverPlacement]="'bottom'"
@@ -12,7 +12,9 @@
 
 <ng-template #popOverRef>
   <div class="header__popover-menu">
-    <nb-icon icon="log-out"></nb-icon>
-    <div (click)="logout()">Log Out</div>
+    <div class="header__popover-menu__row logout">
+      <nb-icon icon="log-out"></nb-icon>
+      <div (click)="logout()">Log Out</div>
+    </div>
   </div>
 </ng-template>
