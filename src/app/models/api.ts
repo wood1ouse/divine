@@ -1,3 +1,5 @@
+import { TestCase } from '@models/database';
+
 export interface TrelloMember {
   id: string;
   aaId: string;
@@ -157,4 +159,10 @@ export enum CardListsNames {
   IN_PROGRESS = 'In Progress',
   CODE_REVIEW = 'Code Review',
   DONE = 'Done',
+}
+
+export interface TrelloTestCase extends TestCase {
+  trelloBoard: string;
+  trelloCard: string;
+  trelloList: string;
 }

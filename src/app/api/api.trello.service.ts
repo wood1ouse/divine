@@ -95,7 +95,33 @@ export class ApiTrelloService {
     );
   }
 
-  getList(listId: string): Observable<TrelloList> {
+  getBoard(boardId: string): Observable<TrelloBoard> {
+    if (!this.apiKey || !this.token) {
+      return of({}) as Observable<TrelloBoard>;
+    }
+    return this.httpClient.get<TrelloBoard>(
+      TrelloEndpoints.boards.getBoard(boardId),
+      {
+        context: TRELLO_CONTEXT,
+        params: { key: this.apiKey, token: this.token, fields: 'name' },
+      }
+    );
+  }
+
+  getCard(cardId: string): Observable<TrelloCard> {
+    if (!this.apiKey || !this.token) {
+      return of({}) as Observable<TrelloCard>;
+    }
+    return this.httpClient.get<TrelloCard>(
+      TrelloEndpoints.cards.getCard(cardId),
+      {
+        context: TRELLO_CONTEXT,
+        params: { key: this.apiKey, token: this.token, fields: 'name' },
+      }
+    );
+  }
+
+  getListOnCard(listId: string): Observable<TrelloList> {
     if (!this.apiKey || !this.token) {
       return of({}) as Observable<TrelloList>;
     }
@@ -103,7 +129,7 @@ export class ApiTrelloService {
       TrelloEndpoints.cards.getListOnCard(listId),
       {
         context: TRELLO_CONTEXT,
-        params: { key: this.apiKey, token: this.token },
+        params: { key: this.apiKey, token: this.token, fields: 'name' },
       }
     );
   }

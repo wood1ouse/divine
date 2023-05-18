@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromTrelloReducer from './trello.reducer';
+import { TrelloTestCase } from '@models/api';
 
 const selectTrelloState = createFeatureSelector<fromTrelloReducer.State>(
   fromTrelloReducer.featureKey
@@ -39,6 +40,49 @@ const selectTrackCardList = createSelector(
   (state) => state.trackCardList
 );
 
+const selectTrelloTestCaseStatuses = createSelector(
+  selectTrelloState,
+  (state) =>
+    Array.from(
+      new Set(
+        state.trelloTestCases.map((trelloTestCase) => trelloTestCase.status)
+      )
+    )
+);
+
+const selectTrelloTestCaseBoards = createSelector(selectTrelloState, (state) =>
+  Array.from(
+    new Set(
+      state.trelloTestCases.map((trelloTestCase) => trelloTestCase.trelloBoard)
+    )
+  )
+);
+
+const selectBoardFilter = createSelector(
+  selectTrelloState,
+  (state) => state.boardFilter
+);
+
+const selectStatusFilter = createSelector(
+  selectTrelloState,
+  (state) => state.testingStatusFilter
+);
+
+const selectTrelloTestCases = createSelector(
+  selectTrelloState,
+  selectBoardFilter,
+  selectStatusFilter,
+  (state, currentTrelloBoard, currentStatus) => {
+    return state.testingStatusFilter || state.boardFilter
+      ? state.trelloTestCases.filter(
+          (item) =>
+            item.trelloBoard === currentTrelloBoard &&
+            item.status === currentStatus
+        )
+      : state.trelloTestCases;
+  }
+);
+
 export const fromTrello = {
   selectTrelloState,
   selectTrelloUserName,
@@ -48,4 +92,7 @@ export const fromTrello = {
   selectActiveTrelloCardId,
   selectActiveCardList,
   selectTrackCardList,
+  selectTrelloTestCases,
+  selectTrelloTestCaseStatuses,
+  selectTrelloTestCaseBoards,
 };

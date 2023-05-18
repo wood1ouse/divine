@@ -11,7 +11,7 @@ import {
 import { EMPTY, filter, from, interval, of } from 'rxjs';
 import { ProjectsActions } from './projects.actions';
 import { ApiProjectsService } from '../../api/api.projects.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { fromProject } from '@store/projects/projects.selectors';
 import { ProjectInviteActions } from '@store/project-invites/project-invites.actions';

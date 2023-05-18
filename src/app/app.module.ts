@@ -25,6 +25,7 @@ import { EmailConfirmComponent } from '@pages/email-confirm/email-confirm.compon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
+  NbAccordionModule,
   NbButtonModule,
   NbCardModule,
   NbInputModule,
@@ -41,7 +42,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TrelloInterceptor } from './api/trello.interceptor';
 import { AngularMarkdownEditorModule } from 'angular-markdown-editor';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
-import { TestCaseCreateComponent } from './pages/test-case-create/test-case-create.component';
+import { TestCaseCreateComponent } from '@pages/test-case-create/test-case-create.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -108,6 +109,7 @@ const STORE = [
       iconlibrary: 'fa',
     }),
     NbSelectWithAutocompleteModule,
+    NbAccordionModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TrelloInterceptor, multi: true },

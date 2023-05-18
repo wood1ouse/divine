@@ -3,7 +3,12 @@ import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { fromTrello } from '@store/trello/trello.selectors';
 import { TrelloActions } from '@store/trello/trello.actions';
-import { CardListsNames, TrelloBoard, TrelloCard } from '@models/api';
+import {
+  CardListsNames,
+  TrelloBoard,
+  TrelloCard,
+  TrelloTestCase,
+} from '@models/api';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +30,18 @@ export class TrelloFacade {
 
   trelloCardList$: Observable<CardListsNames | null> = this.store.select(
     fromTrello.selectActiveCardList
+  );
+
+  trelloTestCases$: Observable<TrelloTestCase[] | null> = this.store.select(
+    fromTrello.selectTrelloTestCases
+  );
+
+  trelloTestCaseStatuses$: Observable<string[]> = this.store.select(
+    fromTrello.selectTrelloTestCaseStatuses
+  );
+
+  trelloTestCaseBoards$: Observable<string[]> = this.store.select(
+    fromTrello.selectTrelloTestCaseBoards
   );
 
   dispatchCheckLinkWithTrello(): void {
@@ -53,5 +70,15 @@ export class TrelloFacade {
 
   dispatchResetTrelloArtifacts(): void {
     this.store.dispatch(TrelloActions.resetTrelloArtifacts());
+  }
+
+  dispatchSetBoardFilter(board: string): void {
+    this.store.dispatch(TrelloActions.setBoardFilter({ board }));
+  }
+
+  dispatchSetTestingStatusFilter(testingStatus: string): void {
+    this.store.dispatch(
+      TrelloActions.setTestingStatusFilter({ testingStatus })
+    );
   }
 }

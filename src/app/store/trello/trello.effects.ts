@@ -8,11 +8,13 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { of, from, filter, EMPTY, interval } from 'rxjs';
+import { of, from, filter, EMPTY, interval, forkJoin } from 'rxjs';
 import { TrelloActions } from './trello.actions';
 import { ApiTrelloService } from '../../api/api.trello.service';
 import { Store } from '@ngrx/store';
 import { fromTrello } from '@store/trello/trello.selectors';
+import { fromTestCase } from '@store/test-case/test-case.selectors';
+import { TrelloTestCase } from '@models/api';
 
 @Injectable()
 export class TrelloEffects {
@@ -109,7 +111,7 @@ export class TrelloEffects {
       withLatestFrom(this.store.select(fromTrello.selectActiveTrelloCardId)),
       concatMap(([, trelloCardId]) => {
         if (trelloCardId) {
-          return from(this.apiTrelloService.getList(trelloCardId)).pipe(
+          return from(this.apiTrelloService.getListOnCard(trelloCardId)).pipe(
             map((trelloList) =>
               TrelloActions.loadTrelloListSuccess({ trelloList })
             ),
@@ -169,6 +171,50 @@ export class TrelloEffects {
         } else {
           return EMPTY;
         }
+      })
+    )
+  );
+
+  loadTrelloTestCases$ = createEffect(() =>
+    interval(2000).pipe(
+      withLatestFrom(this.store.select(fromTestCase.selectTestCases)),
+      switchMap(([_, testCases]) => {
+        const trelloTestCases$ = testCases.map((testCase) => {
+          const { trello_board_id, trello_card_id } = testCase;
+
+          if (trello_board_id && trello_card_id) {
+            return forkJoin({
+              trelloBoard: this.apiTrelloService.getBoard(trello_board_id),
+              trelloCard: this.apiTrelloService.getCard(trello_card_id),
+              list: this.apiTrelloService.getListOnCard(trello_card_id),
+            }).pipe(
+              map(({ trelloBoard, trelloCard, list }) => ({
+                ...testCase,
+                trelloBoard: trelloBoard.name,
+                trelloCard: trelloCard.name,
+                trelloList: list.name,
+              })),
+              catchError(() => of(null))
+            );
+          } else {
+            return of(null);
+          }
+        });
+
+        return forkJoin(trelloTestCases$).pipe(
+          map((trelloTestCases) => {
+            const filteredTrelloTestCases = trelloTestCases.filter(
+              (testCase) => testCase !== null
+            ) as TrelloTestCase[];
+
+            return TrelloActions.loadTrelloTestCasesSuccess({
+              trelloTestCases: filteredTrelloTestCases,
+            });
+          }),
+          catchError((error) =>
+            of(TrelloActions.loadTrelloTestCasesFailure({ error }))
+          )
+        );
       })
     )
   );

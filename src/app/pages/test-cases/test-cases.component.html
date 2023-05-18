@@ -1,7 +1,34 @@
-<div *ngIf="testCases$ | async as testCases">
-  <nb-card size="tiny" (click)="onTestCaseClick(testCase.id)" *ngFor="let testCase of testCases">
-    <a>{{testCase.title}}</a>
-  </nb-card>
-</div>
+<nb-select placeholder="Testing Status" *ngIf="trelloTestCaseStatuses$ | async as trelloTestCaseStatuses"
+           (selectedChange)="onTestingStatusChange($event)">
+  <nb-option *ngFor="let trelloTestCaseStatus of trelloTestCaseStatuses" [value]="trelloTestCaseStatus">
+    {{trelloTestCaseStatus}}
+  </nb-option>
+</nb-select>
+
+<nb-select placeholder="Trello Board" *ngIf="trelloTestCaseBoards$ | async as trelloTestCaseBoards"
+           (selectedChange)="onBoardChange($event)">
+  <nb-option *ngFor="let trelloTestCaseBoard of trelloTestCaseBoards" [value]="trelloTestCaseBoard">
+    {{trelloTestCaseBoard}}
+  </nb-option>
+</nb-select>
+
+<ng-container>
+  <nb-accordion *ngFor="let trelloTestCase of trelloTestCases$ | async">
+    <nb-accordion-item>
+      <nb-accordion-item-header>{{trelloTestCase.title}}</nb-accordion-item-header>
+      <nb-accordion-item-body *ngFor="let trelloTestCaseItem of trelloTestCase.trelloBoard">
+        {{trelloTestCaseItem}}
+      </nb-accordion-item-body>
+    </nb-accordion-item>
+  </nb-accordion>
+</ng-container>
+
+
+<!--<div *ngIf="trelloTestCases$ | async as trelloTestCases">-->
+<!--  <nb-card size="tiny" (click)="onTestCaseClick(testCase.id)" *ngFor="let testCase of trelloTestCases">-->
+<!--    <a>{{testCase.title}} | {{testCase.trelloBoard}} | {{testCase.status}}</a>-->
+<!--  </nb-card>-->
+<!--</div>-->
+
 
 <button nbButton (click)="openWindow()">Create Test Case</button>

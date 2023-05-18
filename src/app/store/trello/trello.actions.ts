@@ -1,5 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { TrelloBoard, TrelloCard, TrelloList, TrelloMember } from '@models/api';
+import {
+  TrelloBoard,
+  TrelloCard,
+  TrelloList,
+  TrelloMember,
+  TrelloTestCase,
+} from '@models/api';
 
 const syncWithTrello = createAction(
   '[Trello] Sync With Trello',
@@ -76,7 +82,29 @@ const subscribeToCardListChanges = createAction(
 );
 
 const unsubscribeToCardListChanges = createAction(
-  '[Trello] Unsubscribe To Card List ChangesP'
+  '[Trello] Unsubscribe To Card List Changes'
+);
+
+const loadTrelloTestCases = createAction('[Trello] Load Trello Test Cases');
+
+const loadTrelloTestCasesSuccess = createAction(
+  '[Trello] Load Trello Test Cases',
+  props<{ trelloTestCases: TrelloTestCase[] }>()
+);
+
+const loadTrelloTestCasesFailure = createAction(
+  '[Trello] Load Trello Test Cases',
+  props<{ error: Error }>()
+);
+
+const setBoardFilter = createAction(
+  '[Trello] Set Board Filter',
+  props<{ board: string }>()
+);
+
+const setTestingStatusFilter = createAction(
+  '[Trello] Set Status Filter',
+  props<{ testingStatus: string }>()
 );
 
 export const TrelloActions = {
@@ -99,4 +127,9 @@ export const TrelloActions = {
   subscribeToCardListChanges,
   unsubscribeToCardListChanges,
   resetTrelloArtifacts,
+  loadTrelloTestCases,
+  loadTrelloTestCasesSuccess,
+  loadTrelloTestCasesFailure,
+  setBoardFilter,
+  setTestingStatusFilter,
 };

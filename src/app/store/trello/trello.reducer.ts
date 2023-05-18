@@ -1,7 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import { TrelloActions } from './trello.actions';
 import { ApiStatuses, HttpState } from '@models/store';
-import { CardListsNames, TrelloBoard, TrelloCard } from '@models/api';
+import {
+  CardListsNames,
+  TrelloBoard,
+  TrelloCard,
+  TrelloTestCase,
+} from '@models/api';
 
 export const featureKey = 'trello';
 
@@ -12,7 +17,11 @@ export interface State extends HttpState {
   activeBoardId: string | null;
   activeCardId: string | null;
   activeCardList: CardListsNames | null;
+  trelloTestCases: TrelloTestCase[];
+  testingStatusFilter: string | null;
+  boardFilter: string | null;
   trackCardList: boolean;
+  trackTrelloTestCases: boolean;
 }
 
 export const initialState: State = {
@@ -23,6 +32,10 @@ export const initialState: State = {
   activeCardId: null,
   activeCardList: null,
   trackCardList: false,
+  trackTrelloTestCases: false,
+  trelloTestCases: [],
+  testingStatusFilter: null,
+  boardFilter: null,
   status: ApiStatuses.NOT_LOADED,
   error: null,
 };
@@ -161,5 +174,43 @@ export const reducer = createReducer(
     activeBoardId: null,
     activeCardId: null,
     activeCardList: null,
-  }))
+  })),
+  on(
+    TrelloActions.loadTrelloTestCases,
+    (state): State => ({
+      ...state,
+      status: ApiStatuses.LOADING,
+      error: null,
+    })
+  ),
+  on(
+    TrelloActions.loadTrelloTestCasesSuccess,
+    (state, { trelloTestCases }): State => ({
+      ...state,
+      status: ApiStatuses.LOADED,
+      trelloTestCases,
+    })
+  ),
+  on(
+    TrelloActions.loadTrelloTestCasesFailure,
+    (state, { error }): State => ({
+      ...state,
+      status: ApiStatuses.NOT_LOADED,
+      error,
+    })
+  ),
+  on(
+    TrelloActions.setBoardFilter,
+    (state, { board }): State => ({
+      ...state,
+      boardFilter: board,
+    })
+  ),
+  on(
+    TrelloActions.setTestingStatusFilter,
+    (state, { testingStatus }): State => ({
+      ...state,
+      testingStatusFilter: testingStatus,
+    })
+  )
 );
