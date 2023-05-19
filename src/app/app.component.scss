@@ -1,3 +1,25 @@
 divine-header {
   width: 100%;
 }
+
+.sidebar {
+  &__icons {
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    nb-icon {
+      cursor: pointer;
+      font-size: 42px;
+      padding: 10px;
+      border-radius: 25px;
+      transition: background .3s linear;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}

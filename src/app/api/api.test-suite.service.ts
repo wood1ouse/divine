@@ -23,6 +23,14 @@ export class ApiTestSuiteService {
     return data;
   }
 
+  async getAllTestSuites(): Promise<TestSuite[]> {
+    const { data, error } = await this.supabase.from('test_suites').select('*');
+
+    if (!data || error) throw Error();
+
+    return data;
+  }
+
   async createTestSuite(
     projectId: number,
     name: string,

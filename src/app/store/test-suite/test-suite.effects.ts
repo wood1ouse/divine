@@ -1,18 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  catchError,
-  map,
-  concatMap,
-  withLatestFrom,
-  tap,
-} from 'rxjs/operators';
+import { catchError, map, concatMap, withLatestFrom } from 'rxjs/operators';
 import { of, from, EMPTY } from 'rxjs';
 import { TestSuiteActions } from './test-suite.actions';
 import { fromProject } from '@store/projects/projects.selectors';
 import { Store } from '@ngrx/store';
 import { ApiTestSuiteService } from '../../api/api.test-suite.service';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class TestSuiteEffects {
@@ -73,24 +66,9 @@ export class TestSuiteEffects {
     )
   );
 
-  redirectToTestSuiteDetailOnSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(TestSuiteActions.createTestSuiteSuccess),
-        withLatestFrom(this.store.select(fromProject.selectActiveProjectId)),
-        tap(([{ testSuiteId }, projectId]) => {
-          this.router.navigate([
-            `/projects/${projectId}/test-suites/${testSuiteId}`,
-          ]);
-        })
-      ),
-    { dispatch: false }
-  );
-
   constructor(
     private store: Store,
     private actions$: Actions,
-    private apiTestSuitesService: ApiTestSuiteService,
-    private router: Router
+    private apiTestSuitesService: ApiTestSuiteService
   ) {}
 }
