@@ -60,6 +60,17 @@ const updateTestCaseFailure = createAction(
   props<{ error: PostgrestError }>()
 );
 
+const deleteTestCase = createAction('[TestSuite] Delete Test Case');
+
+const deleteTestCaseSuccess = createAction(
+  '[TestSuite] Delete Test Case Success'
+);
+
+const deleteTestCaseFailure = createAction(
+  '[TestSuite] Delete Test Case Failure',
+  props<{ error: PostgrestError }>()
+);
+
 export const TestCaseActions = {
   loadTestCases,
   loadTestCasesSuccess,
@@ -71,4 +82,7 @@ export const TestCaseActions = {
   updateTestCase,
   updateTestCaseSuccess,
   updateTestCaseFailure,
+  deleteTestCase,
+  deleteTestCaseSuccess,
+  deleteTestCaseFailure,
 };

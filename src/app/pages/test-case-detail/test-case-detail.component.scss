@@ -1,7 +1,33 @@
+.test-case-detail {
+  &__controls {
+    &__container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+
 nb-tag {
   margin-left: 10px;
 }
 
 input, button, nb-select {
   margin: 10px;
+}
+
+nb-icon {
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 24px;
+  font-size: 32px;
+  padding: 10px;
+  width: 48px;
+  height: 48px;
+  border-radius: 25px;
+  transition: background .3s linear;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
 }

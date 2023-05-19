@@ -62,4 +62,8 @@ export class TestCaseFacade {
       })
     );
   }
+
+  dispatchDeleteTestCase(): void {
+    this.store.dispatch(TestCaseActions.deleteTestCase());
+  }
 }

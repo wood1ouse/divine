@@ -212,5 +212,13 @@ export const reducer = createReducer(
       ...state,
       testingStatusFilter: testingStatus,
     })
+  ),
+  on(
+    TrelloActions.resetActiveFilters,
+    (state): State => ({
+      ...state,
+      boardFilter: null,
+      testingStatusFilter: null,
+    })
   )
 );

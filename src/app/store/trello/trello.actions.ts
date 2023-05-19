@@ -107,6 +107,8 @@ const setTestingStatusFilter = createAction(
   props<{ testingStatus: string }>()
 );
 
+const resetActiveFilters = createAction('[Trello] Reset Active Filter');
+
 export const TrelloActions = {
   syncWithTrello,
   checkLinkWithTrello,
@@ -132,4 +134,5 @@ export const TrelloActions = {
   loadTrelloTestCasesFailure,
   setBoardFilter,
   setTestingStatusFilter,
+  resetActiveFilters,
 };

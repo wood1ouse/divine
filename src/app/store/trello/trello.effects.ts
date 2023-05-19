@@ -14,7 +14,7 @@ import { ApiTrelloService } from '../../api/api.trello.service';
 import { Store } from '@ngrx/store';
 import { fromTrello } from '@store/trello/trello.selectors';
 import { fromTestCase } from '@store/test-case/test-case.selectors';
-import { TrelloTestCase } from '@models/api';
+import { TestCaseActions } from '@store/test-case/test-case.actions';
 
 @Injectable()
 export class TrelloEffects {
@@ -190,25 +190,33 @@ export class TrelloEffects {
             }).pipe(
               map(({ trelloBoard, trelloCard, list }) => ({
                 ...testCase,
-                trelloBoard: trelloBoard.name,
-                trelloCard: trelloCard.name,
-                trelloList: list.name,
+                trelloBoard: trelloBoard ? trelloBoard.name : '',
+                trelloCard: trelloCard ? trelloCard.name : '',
+                trelloList: list ? list.name : '',
               })),
-              catchError(() => of(null))
+              catchError(() =>
+                of({
+                  ...testCase,
+                  trelloBoard: '',
+                  trelloCard: '',
+                  trelloList: '',
+                })
+              )
             );
           } else {
-            return of(null);
+            return of({
+              ...testCase,
+              trelloBoard: '',
+              trelloCard: '',
+              trelloList: '',
+            });
           }
         });
 
         return forkJoin(trelloTestCases$).pipe(
           map((trelloTestCases) => {
-            const filteredTrelloTestCases = trelloTestCases.filter(
-              (testCase) => testCase !== null
-            ) as TrelloTestCase[];
-
             return TrelloActions.loadTrelloTestCasesSuccess({
-              trelloTestCases: filteredTrelloTestCases,
+              trelloTestCases,
             });
           }),
           catchError((error) =>
@@ -216,6 +224,13 @@ export class TrelloEffects {
           )
         );
       })
+    )
+  );
+
+  deleteTestCaseSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TestCaseActions.deleteTestCaseSuccess),
+      map(() => TrelloActions.loadTrelloTestCases())
     )
   );
 

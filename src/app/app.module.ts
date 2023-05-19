@@ -25,9 +25,10 @@ import { EmailConfirmComponent } from '@pages/email-confirm/email-confirm.compon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
-  NbAccordionModule,
   NbButtonModule,
   NbCardModule,
+  NbDialogModule,
+  NbIconModule,
   NbInputModule,
   NbLayoutModule,
   NbSelectWithAutocompleteModule,
@@ -43,6 +44,9 @@ import { TrelloInterceptor } from './api/trello.interceptor';
 import { AngularMarkdownEditorModule } from 'angular-markdown-editor';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { TestCaseCreateComponent } from '@pages/test-case-create/test-case-create.component';
+import { MatTableModule } from '@angular/material/table';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { DeletePromptComponent } from '@pages/delete-prompt/delete-prompt.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -52,6 +56,7 @@ const COMPONENTS = [
   TestSuiteDetailComponent,
   TestCasesComponent,
   TestCaseDetailComponent,
+  DeletePromptComponent,
 ];
 
 const FEATURES = [LoginModule, RegisterModule, LayoutModule];
@@ -75,6 +80,7 @@ const STORE = [
     ...COMPONENTS,
     ProjectCreateComponent,
     TestCaseCreateComponent,
+    DeletePromptComponent,
   ],
   imports: [
     BrowserModule,
@@ -109,7 +115,10 @@ const STORE = [
       iconlibrary: 'fa',
     }),
     NbSelectWithAutocompleteModule,
-    NbAccordionModule,
+    NbDialogModule.forRoot({}),
+    NgxSkeletonLoaderModule,
+    MatTableModule,
+    NbIconModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TrelloInterceptor, multi: true },

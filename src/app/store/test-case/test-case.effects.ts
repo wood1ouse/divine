@@ -107,10 +107,33 @@ export class TestCaseEffects {
     );
   });
 
+  deleteTestCase$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TestCaseActions.deleteTestCase),
+      withLatestFrom(this.store.select(fromTestCase.selectActiveTestCaseId)),
+      concatMap(([, testCaseId]) => {
+        console.log(testCaseId);
+        if (testCaseId) {
+          return from(this.apiTestCaseService.deleteTestCase(testCaseId)).pipe(
+            map(() => TestCaseActions.deleteTestCaseSuccess()),
+            catchError((error) => {
+              return of(TestCaseActions.deleteTestCaseFailure({ error }));
+            })
+          );
+        } else {
+          return EMPTY;
+        }
+      })
+    );
+  });
+
   redirectToProjectsOnUpdateTestCaseSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(TestCaseActions.updateTestCaseSuccess),
+        ofType(
+          TestCaseActions.updateTestCaseSuccess,
+          TestCaseActions.deleteTestCaseSuccess
+        ),
         withLatestFrom(
           this.store.select(fromProject.selectActiveProjectId),
           this.store.select(fromTestSuite.selectActiveTestSuiteId)
@@ -129,7 +152,8 @@ export class TestCaseEffects {
     this.actions$.pipe(
       ofType(
         TestCaseActions.createTestCaseSuccess,
-        TestCaseActions.setActiveTestCase
+        TestCaseActions.setActiveTestCase,
+        TestCaseActions.deleteTestCaseSuccess
       ),
       map(() => {
         return TestCaseActions.loadTestCases();

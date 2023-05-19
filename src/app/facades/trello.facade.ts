@@ -44,6 +44,14 @@ export class TrelloFacade {
     fromTrello.selectTrelloTestCaseBoards
   );
 
+  boardFilter$: Observable<string | null> = this.store.select(
+    fromTrello.selectBoardFilter
+  );
+
+  statusFilter$: Observable<string | null> = this.store.select(
+    fromTrello.selectStatusFilter
+  );
+
   dispatchCheckLinkWithTrello(): void {
     this.store.dispatch(TrelloActions.checkLinkWithTrello());
   }
@@ -80,5 +88,9 @@ export class TrelloFacade {
     this.store.dispatch(
       TrelloActions.setTestingStatusFilter({ testingStatus })
     );
+  }
+
+  dispatchResetActiveFilters(): void {
+    this.store.dispatch(TrelloActions.resetActiveFilters());
   }
 }

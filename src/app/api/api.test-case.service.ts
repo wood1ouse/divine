@@ -75,4 +75,15 @@ export class ApiTestCaseService {
 
     return data;
   }
+
+  async deleteTestCase(testCaseId: number): Promise<null> {
+    const { data, error } = await this.supabase
+      .from('test_cases')
+      .delete()
+      .eq('id', testCaseId);
+
+    if (error) throw Error();
+
+    return data;
+  }
 }

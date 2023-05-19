@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProjectsComponent } from '@pages/projects/projects.component';
 import { ProjectDetailComponent } from '@pages/project-detail/project-detail.component';
 import { TestSuitesComponent } from '@pages/test-suites/test-suites.component';
-import { TestSuiteDetailComponent } from '@pages/test-suite-detail/test-suite-detail.component';
 import { TestCasesComponent } from '@pages/test-cases/test-cases.component';
 import { TestCaseDetailComponent } from '@pages/test-case-detail/test-case-detail.component';
 import { LoginComponent } from '@pages/login/login.component';
@@ -83,11 +82,6 @@ const routes: Routes = [
   {
     path: 'projects/:projectId/test-suites',
     component: TestSuitesComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'projects/:projectId/test-suites/:testSuiteId',
-    component: TestSuiteDetailComponent,
     canActivate: [AuthGuard],
   },
   {

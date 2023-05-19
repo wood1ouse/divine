@@ -7,6 +7,8 @@ import { MarkdownService } from 'ngx-markdown';
 import { EditorOption } from 'angular-markdown-editor';
 import { TrelloFacade } from '@facades/trello.facade';
 import { CardListsNames, TrelloBoard, TrelloCard } from '@models/api';
+import { NbDialogService } from '@nebular/theme';
+import { DeletePromptComponent } from '@pages/delete-prompt/delete-prompt.component';
 
 @Component({
   selector: 'divine-test-case-detail',
@@ -30,7 +32,8 @@ export class TestCaseDetailComponent implements OnInit, OnDestroy {
     private testCaseFacade: TestCaseFacade,
     private trelloFacade: TrelloFacade,
     private formBuilder: FormBuilder,
-    private markdownService: MarkdownService
+    private markdownService: MarkdownService,
+    private dialogService: NbDialogService
   ) {}
 
   ngOnInit() {
@@ -95,6 +98,10 @@ export class TestCaseDetailComponent implements OnInit, OnDestroy {
       this.testCaseUpdateForm.value.trelloBoardId,
       this.testCaseUpdateForm.value.trelloCardId
     );
+  }
+
+  onTestCaseDelete() {
+    this.dialogService.open(DeletePromptComponent);
   }
 
   getListName(trelloCardList: CardListsNames): string {

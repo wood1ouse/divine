@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TestCaseFacade } from '@facades/test-case.facade';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TestCase } from '@models/database';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbWindowService } from '@nebular/theme';
 import { TestCaseCreateComponent } from '@pages/test-case-create/test-case-create.component';
 import { TrelloFacade } from '@facades/trello.facade';
-import { TrelloTestCase } from '@models/api';
+import { CardListsNames, TrelloTestCase } from '@models/api';
 
 @Component({
   selector: 'divine-test-cases',
@@ -22,7 +22,17 @@ export class TestCasesComponent implements OnInit, OnDestroy {
 
   trelloTestCaseBoards$: Observable<string[]>;
 
-  subscribeToTrelloChanges = true;
+  boardFilter: string | null;
+
+  statusFilter: string | null;
+
+  displayedColumns: string[] = [
+    'title',
+    'trelloBoard',
+    'trelloCard',
+    'status',
+    'trelloList',
+  ];
 
   constructor(
     private testCaseFacade: TestCaseFacade,
@@ -40,6 +50,13 @@ export class TestCasesComponent implements OnInit, OnDestroy {
     this.trelloTestCaseStatuses$ = this.trelloFacade.trelloTestCaseStatuses$;
     this.trelloTestCaseBoards$ = this.trelloFacade.trelloTestCaseBoards$;
     this.trelloTestCases$ = this.trelloFacade.trelloTestCases$;
+
+    this.trelloFacade.boardFilter$.subscribe((value) => {
+      this.boardFilter = value;
+    });
+    this.trelloFacade.statusFilter$.subscribe((value) => {
+      this.statusFilter = value;
+    });
   }
 
   ngOnDestroy() {
@@ -67,11 +84,22 @@ export class TestCasesComponent implements OnInit, OnDestroy {
     this.trelloFacade.dispatchSetBoardFilter(board);
   }
 
-  foo() {
-    console.log('foo');
-    this.subscribeToTrelloChanges = !this.subscribeToTrelloChanges;
-    this.subscribeToTrelloChanges
-      ? this.trelloFacade.dispatchSubscribeToCardListChanges()
-      : this.trelloFacade.dispatchUnsubscribeToCardListChanges();
+  onFiltersReset() {
+    this.trelloFacade.dispatchResetActiveFilters();
+  }
+
+  getListName(trelloCardList: CardListsNames): string {
+    switch (trelloCardList) {
+      case CardListsNames.NOT_STARTED:
+        return 'basic';
+      case CardListsNames.IN_PROGRESS:
+        return 'primary';
+      case CardListsNames.CODE_REVIEW:
+        return 'warning';
+      case CardListsNames.DONE:
+        return 'success';
+      default:
+        return '';
+    }
   }
 }

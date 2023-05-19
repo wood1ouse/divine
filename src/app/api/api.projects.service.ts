@@ -56,7 +56,6 @@ export class ApiProjectsService {
     return this.supabase.from('projects').insert({
       name,
       description,
-      api_token: uuidv4(),
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       owner_id: ownerData.user.id,

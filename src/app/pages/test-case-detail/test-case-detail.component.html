@@ -1,24 +1,35 @@
 <nb-card *ngIf="testCase$ | async">
   <form [formGroup]="testCaseUpdateForm" (ngSubmit)="onTestCaseUpdate()" class="space-y-4">
-    <input nbInput id="title" formControlName="title" type="text" class="mt-1 block w-full" />
-    <nb-select placeholder="Trello Board" (selectedChange)="onBoardChange($event)" formControlName="trelloBoardId"
-               *ngIf="trelloBoards$ | async as trelloBoards">
-      <nb-option *ngFor="let board of trelloBoards" [value]="board.id">
-        {{ board.name }}
-      </nb-option>
-    </nb-select>
 
-    <nb-select placeholder="Trello Card" (selectedChange)="onCardChange($event)" formControlName="trelloCardId"
-               *ngIf="trelloCards$ | async as trelloCards">
-      <nb-option *ngFor="let card of trelloCards" [value]="card.id">
-        {{ card.name }}
-      </nb-option>
-    </nb-select>
+    <div class="test-case-detail__controls__container">
+      <div>
+        <input nbInput id="title" formControlName="title" type="text" class="mt-1 block w-full" />
+        <nb-select placeholder="Trello Board" (selectedChange)="onBoardChange($event)" formControlName="trelloBoardId"
+                   *ngIf="trelloBoards$ | async as trelloBoards">
+          <nb-option *ngFor="let board of trelloBoards" [value]="board.id">
+            {{ board.name }}
+          </nb-option>
+        </nb-select>
 
-    <nb-tag *ngIf="trelloCardList$ | async as trelloCardList"
-            [status]="getListName(trelloCardList)" appearance="filled"
-            [text]="trelloCardList">
-    </nb-tag>
+        <nb-select placeholder="Trello Card" (selectedChange)="onCardChange($event)" formControlName="trelloCardId"
+                   *ngIf="trelloCards$ | async as trelloCards">
+          <nb-option *ngFor="let card of trelloCards" [value]="card.id">
+            {{ card.name }}
+          </nb-option>
+        </nb-select>
+
+        <nb-tag *ngIf="trelloCardList$ | async as trelloCardList"
+                [status]="getListName(trelloCardList)" appearance="filled"
+                [text]="trelloCardList">
+        </nb-tag>
+      </div>
+
+      <nb-icon icon="trash-2-outline" (click)="onTestCaseDelete()">
+        Delete
+      </nb-icon>
+
+    </div>
+
 
     <div class="markdown-editor">
       <angular-markdown-editor nbInput formControlName="description"

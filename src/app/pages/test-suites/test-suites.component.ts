@@ -44,7 +44,7 @@ export class TestSuitesComponent implements OnInit {
 
   onTestSuiteClick(testSuiteId: number): void {
     this.testSuitesFacade.dispatchSetActiveTestSuite(testSuiteId);
-    this.router.navigate([`./${testSuiteId}`], {
+    this.router.navigate([`./${testSuiteId}/test-cases`], {
       relativeTo: this.activatedRoute,
     });
   }

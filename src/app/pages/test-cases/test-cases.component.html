@@ -1,34 +1,76 @@
-<nb-select placeholder="Testing Status" *ngIf="trelloTestCaseStatuses$ | async as trelloTestCaseStatuses"
-           (selectedChange)="onTestingStatusChange($event)">
-  <nb-option *ngFor="let trelloTestCaseStatus of trelloTestCaseStatuses" [value]="trelloTestCaseStatus">
-    {{trelloTestCaseStatus}}
-  </nb-option>
-</nb-select>
+<nb-card>
+  <div class="test-cases__controls__container">
+    <div>
+      <nb-select placeholder="Testing Status" [(selected)]="statusFilter"
+                 *ngIf="trelloTestCaseStatuses$ | async as trelloTestCaseStatuses"
+                 (selectedChange)="onTestingStatusChange($event)">
+        <nb-option *ngFor="let trelloTestCaseStatus of trelloTestCaseStatuses" [value]="trelloTestCaseStatus">
+          {{trelloTestCaseStatus}}
+        </nb-option>
+      </nb-select>
 
-<nb-select placeholder="Trello Board" *ngIf="trelloTestCaseBoards$ | async as trelloTestCaseBoards"
-           (selectedChange)="onBoardChange($event)">
-  <nb-option *ngFor="let trelloTestCaseBoard of trelloTestCaseBoards" [value]="trelloTestCaseBoard">
-    {{trelloTestCaseBoard}}
-  </nb-option>
-</nb-select>
+      <nb-select placeholder="Trello Board" [(selected)]="boardFilter"
+                 *ngIf="trelloTestCaseBoards$ | async as trelloTestCaseBoards"
+                 (selectedChange)="onBoardChange($event)">
+        <nb-option *ngFor="let trelloTestCaseBoard of trelloTestCaseBoards" [value]="trelloTestCaseBoard">
+          {{trelloTestCaseBoard}}
+        </nb-option>
+      </nb-select>
 
-<ng-container>
-  <nb-accordion *ngFor="let trelloTestCase of trelloTestCases$ | async">
-    <nb-accordion-item>
-      <nb-accordion-item-header>{{trelloTestCase.title}}</nb-accordion-item-header>
-      <nb-accordion-item-body *ngFor="let trelloTestCaseItem of trelloTestCase.trelloBoard">
-        {{trelloTestCaseItem}}
-      </nb-accordion-item-body>
-    </nb-accordion-item>
-  </nb-accordion>
+      <button nbButton (click)="onFiltersReset()">Reset</button>
+    </div>
+
+    <button status="success" class="test-cases__controls__button_create" nbButton (click)="openWindow()">Create Test
+      Case
+    </button>
+  </div>
+</nb-card>
+
+<ng-container *ngIf="trelloTestCases$ | async as trelloTestCases">
+  <table mat-table [dataSource]="trelloTestCases" class="mat-elevation-z8 demo-table">
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let element">{{element.title}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="trelloBoard">
+      <th mat-header-cell *matHeaderCellDef>Trello Board</th>
+      <td mat-cell *matCellDef="let element">{{element.trelloBoard || '-'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="trelloCard">
+      <th mat-header-cell *matHeaderCellDef>Trello Card</th>
+      <td mat-cell *matCellDef="let element">{{element.trelloCard || '-'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Testing Status</th>
+      <td mat-cell *matCellDef="let element">{{element.status}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="trelloList">
+      <th mat-header-cell *matHeaderCellDef>Development Status</th>
+      <td mat-cell *matCellDef="let element">
+        <nb-tag *ngIf="element.trelloList" [text]="element.trelloList"
+                [status]="getListName(element.trelloList)"></nb-tag>
+        <ng-container *ngIf="!element.trelloList">-</ng-container>
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      (click)="onTestCaseClick(row.id)"
+      *matRowDef="let row; columns: displayedColumns;"
+    ></tr>
+  </table>
 </ng-container>
 
-
-<!--<div *ngIf="trelloTestCases$ | async as trelloTestCases">-->
-<!--  <nb-card size="tiny" (click)="onTestCaseClick(testCase.id)" *ngFor="let testCase of trelloTestCases">-->
-<!--    <a>{{testCase.title}} | {{testCase.trelloBoard}} | {{testCase.status}}</a>-->
-<!--  </nb-card>-->
-<!--</div>-->
+<div class="test-cases__skeleton" *ngIf="!(trelloTestCases$ | async)?.length">
+  <ngx-skeleton-loader count="5" appearance="line"></ngx-skeleton-loader>
+</div>
 
 
-<button nbButton (click)="openWindow()">Create Test Case</button>
+
