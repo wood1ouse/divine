@@ -1,7 +1,41 @@
+.test-cases {
+  &__controls {
+    &__container {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+
+    &__button {
+      &_create {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &__skeleton {
+    background: #fff;
+  }
+}
+
+button, nb-select {
+  margin-left: 10px;
+}
+
 nb-card {
+  display: flex;
+}
+
+tr {
+  &:hover {
+
+  }
+}
+
+.mat-mdc-table .mdc-data-table__row {
   cursor: pointer;
-  filter: none;
-  transition: all .3s linear;
+  transition: .3s filter linear;
 
   &:hover {
     filter: brightness(0.85);

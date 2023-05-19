@@ -30,10 +30,40 @@ export class TestCaseFacade {
   dispatchCreateTestCase(
     title: string,
     description: string,
-    status: string
+    status: string,
+    trelloBoardId?: string,
+    trelloCardId?: string
   ): void {
     this.store.dispatch(
-      TestCaseActions.createTestCase({ title, description, status })
+      TestCaseActions.createTestCase({
+        title,
+        description,
+        status,
+        trelloBoardId,
+        trelloCardId,
+      })
     );
+  }
+
+  dispatchUpdateTestCase(
+    title: string,
+    description: string,
+    status: string,
+    trelloBoardId?: string,
+    trelloCardId?: string
+  ): void {
+    this.store.dispatch(
+      TestCaseActions.updateTestCase({
+        title,
+        description,
+        status,
+        trelloBoardId,
+        trelloCardId,
+      })
+    );
+  }
+
+  dispatchDeleteTestCase(): void {
+    this.store.dispatch(TestCaseActions.deleteTestCase());
   }
 }

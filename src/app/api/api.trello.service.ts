@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TRELLO_CONTEXT, TrelloEndpoints } from './endpoints';
-import { TrelloCard, TrelloMember } from '@models/api';
-import { lastValueFrom, Observable } from 'rxjs';
+import { TrelloBoard, TrelloCard, TrelloList, TrelloMember } from '@models/api';
+import { lastValueFrom, Observable, of } from 'rxjs';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '@models/database';
 import { environment } from '../../environments/environment';
@@ -72,12 +72,64 @@ export class ApiTrelloService {
       .insert({ user_id: userData.user.id, token, api_key: apiKey });
   }
 
+  getBoards(): Observable<TrelloBoard[]> {
+    return this.httpClient.get<TrelloBoard[]>(
+      TrelloEndpoints.boards.getBoards(),
+      {
+        context: TRELLO_CONTEXT,
+        params: { key: this.apiKey, token: this.token, fields: 'name,url' },
+      }
+    );
+  }
+
   getCards(boardId: string): Observable<TrelloCard[]> {
+    if (!this.apiKey || !this.token) {
+      return of([]) as Observable<TrelloCard[]>;
+    }
     return this.httpClient.get<TrelloCard[]>(
       TrelloEndpoints.cards.getCardsOnBoard(boardId),
       {
         context: TRELLO_CONTEXT,
         params: { key: this.apiKey, token: this.token },
+      }
+    );
+  }
+
+  getBoard(boardId: string): Observable<TrelloBoard> {
+    if (!this.apiKey || !this.token) {
+      return of({}) as Observable<TrelloBoard>;
+    }
+    return this.httpClient.get<TrelloBoard>(
+      TrelloEndpoints.boards.getBoard(boardId),
+      {
+        context: TRELLO_CONTEXT,
+        params: { key: this.apiKey, token: this.token, fields: 'name' },
+      }
+    );
+  }
+
+  getCard(cardId: string): Observable<TrelloCard> {
+    if (!this.apiKey || !this.token) {
+      return of({}) as Observable<TrelloCard>;
+    }
+    return this.httpClient.get<TrelloCard>(
+      TrelloEndpoints.cards.getCard(cardId),
+      {
+        context: TRELLO_CONTEXT,
+        params: { key: this.apiKey, token: this.token, fields: 'name' },
+      }
+    );
+  }
+
+  getListOnCard(listId: string): Observable<TrelloList> {
+    if (!this.apiKey || !this.token) {
+      return of({}) as Observable<TrelloList>;
+    }
+    return this.httpClient.get<TrelloList>(
+      TrelloEndpoints.cards.getListOnCard(listId),
+      {
+        context: TRELLO_CONTEXT,
+        params: { key: this.apiKey, token: this.token, fields: 'name' },
       }
     );
   }

@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  concatMap,
+  withLatestFrom,
+  tap,
+} from 'rxjs/operators';
 import { EMPTY, from, of } from 'rxjs';
 import { TestCaseActions } from './test-case.actions';
 import { ApiTestCaseService } from '../../api/api.test-case.service';
 import { Store } from '@ngrx/store';
 import { fromTestSuite } from '@store/test-suite/test-suite.selectors';
+import { fromTestCase } from '@store/test-case/test-case.selectors';
 import { Router } from '@angular/router';
+import { fromProject } from '@store/projects/projects.selectors';
 
 @Injectable()
 export class TestCaseEffects {
@@ -35,22 +43,82 @@ export class TestCaseEffects {
     return this.actions$.pipe(
       ofType(TestCaseActions.createTestCase),
       withLatestFrom(this.store.select(fromTestSuite.selectActiveTestSuiteId)),
-      concatMap(([{ title, description, status }, testSuiteId]) => {
-        if (testSuiteId) {
-          return from(
-            this.apiTestCaseService.createTestCase(
-              title,
-              description,
-              status,
-              testSuiteId
-            )
-          ).pipe(
-            map((testCaseId) =>
-              TestCaseActions.createTestCaseSuccess({ testCaseId })
-            ),
-            catchError((error) =>
-              of(TestCaseActions.createTestCaseFailure({ error }))
-            )
+      concatMap(
+        ([
+          { title, description, status, trelloBoardId, trelloCardId },
+          testSuiteId,
+        ]) => {
+          if (testSuiteId) {
+            return from(
+              this.apiTestCaseService.createTestCase(
+                title,
+                description,
+                status,
+                testSuiteId,
+                trelloBoardId,
+                trelloCardId
+              )
+            ).pipe(
+              map((testCaseId) =>
+                TestCaseActions.createTestCaseSuccess({ testCaseId })
+              ),
+              catchError((error) =>
+                of(TestCaseActions.createTestCaseFailure({ error }))
+              )
+            );
+          } else {
+            return EMPTY;
+          }
+        }
+      )
+    );
+  });
+
+  updateTestCase$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TestCaseActions.updateTestCase),
+      withLatestFrom(this.store.select(fromTestCase.selectActiveTestCaseId)),
+      concatMap(
+        ([
+          { title, description, status, trelloBoardId, trelloCardId },
+          testCaseId,
+        ]) => {
+          if (testCaseId) {
+            return from(
+              this.apiTestCaseService.updateTestCase(
+                title,
+                description,
+                status,
+                testCaseId,
+                trelloBoardId,
+                trelloCardId
+              )
+            ).pipe(
+              map(() => TestCaseActions.updateTestCaseSuccess()),
+              catchError((error) => {
+                return of(TestCaseActions.updateTestCaseFailure({ error }));
+              })
+            );
+          } else {
+            return EMPTY;
+          }
+        }
+      )
+    );
+  });
+
+  deleteTestCase$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TestCaseActions.deleteTestCase),
+      withLatestFrom(this.store.select(fromTestCase.selectActiveTestCaseId)),
+      concatMap(([, testCaseId]) => {
+        console.log(testCaseId);
+        if (testCaseId) {
+          return from(this.apiTestCaseService.deleteTestCase(testCaseId)).pipe(
+            map(() => TestCaseActions.deleteTestCaseSuccess()),
+            catchError((error) => {
+              return of(TestCaseActions.deleteTestCaseFailure({ error }));
+            })
           );
         } else {
           return EMPTY;
@@ -59,9 +127,34 @@ export class TestCaseEffects {
     );
   });
 
+  redirectToProjectsOnUpdateTestCaseSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          TestCaseActions.updateTestCaseSuccess,
+          TestCaseActions.deleteTestCaseSuccess
+        ),
+        withLatestFrom(
+          this.store.select(fromProject.selectActiveProjectId),
+          this.store.select(fromTestSuite.selectActiveTestSuiteId)
+        ),
+        tap(([, projectId, testSuiteId]) => {
+          this.router.navigate([
+            `/projects/${projectId}/test-suites/${testSuiteId}/test-cases`,
+          ]);
+        })
+      ),
+
+    { dispatch: false }
+  );
+
   refetchTestCasesOnCreateTestCaseSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(TestCaseActions.createTestCaseSuccess),
+      ofType(
+        TestCaseActions.createTestCaseSuccess,
+        TestCaseActions.setActiveTestCase,
+        TestCaseActions.deleteTestCaseSuccess
+      ),
       map(() => {
         return TestCaseActions.loadTestCases();
       })

@@ -8,19 +8,16 @@ import {
   withLatestFrom,
   switchMap,
 } from 'rxjs/operators';
-import { EMPTY, filter, from, interval, Observable, of } from 'rxjs';
+import { EMPTY, filter, from, interval, of } from 'rxjs';
 import { ProjectsActions } from './projects.actions';
 import { ApiProjectsService } from '../../api/api.projects.service';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  ParamMap,
-  Router,
-} from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { fromProject } from '@store/projects/projects.selectors';
 import { ProjectInviteActions } from '@store/project-invites/project-invites.actions';
 import { fromProjectInvite } from '@store/project-invites/project-invites.selectors';
+import { TestSuiteActions } from '@store/test-suite/test-suite.actions';
+import { TestCaseActions } from '@store/test-case/test-case.actions';
 
 @Injectable()
 export class ProjectsEffects {
@@ -109,10 +106,8 @@ export class ProjectsEffects {
                 return from(
                   this.apiProjectsService.updateInviteToken(projectId)
                 ).pipe(
-                  tap((f) => console.log('f')),
                   map(() => ProjectsActions.updateInviteTokenSuccess()),
                   catchError((error) => {
-                    console.log(error);
                     return of(ProjectsActions.updateInviteTokenFailure());
                   })
                 );
@@ -137,27 +132,32 @@ export class ProjectsEffects {
     )
   );
 
-  setActiveProjectFromRoute$ = createEffect(
-    () =>
-      this.router.events.pipe(
-        filter((event) => event instanceof NavigationEnd),
-        switchMap((): Observable<ParamMap> => {
-          let route = this.route;
-          while (route.firstChild) {
-            route = route.firstChild;
-          }
-          return route.paramMap;
-        }),
-        map((params: ParamMap) =>
-          params.has('projectId') ? +params.get('projectId')! : null
-        ),
-        filter((projectId) => !!projectId),
-        map((projectId) =>
-          ProjectsActions.setActiveProject({ projectId: projectId || 26 })
-        )
-      ),
-    { dispatch: true }
-  );
+  activateProjectOnRouteChange$ = createEffect(() => {
+    return this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => this.router.routerState.root),
+      map((route) => {
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
+        return route;
+      }),
+      filter((route) => route.outlet === 'primary'),
+      switchMap((route) => {
+        const projectId = parseInt(route.snapshot.params['projectId']);
+        const testSuiteId = parseInt(route.snapshot.params['testSuiteId']);
+        const testCaseId = parseInt(route.snapshot.params['testCaseId']);
+
+        return of(
+          ProjectsActions.setActiveProject({
+            projectId,
+          }),
+          TestSuiteActions.setActiveTestSuite({ testSuiteId }),
+          TestCaseActions.setActiveTestCase({ testCaseId })
+        );
+      })
+    );
+  });
 
   refetchProjects$ = createEffect(() =>
     this.actions$.pipe(
@@ -208,7 +208,6 @@ export class ProjectsEffects {
     private store: Store,
     private actions$: Actions,
     private apiProjectsService: ApiProjectsService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {}
 }

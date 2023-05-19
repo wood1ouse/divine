@@ -18,8 +18,9 @@ const selectActiveProject = createSelector(
     projects.find((project) => project.id === state.activeProjectId) || null
 );
 
-const selectActiveProjectId = createSelector(selectActiveProject, (project) =>
-  project ? project.id : null
+const selectActiveProjectId = createSelector(
+  selectProjectsState,
+  (state) => state.activeProjectId
 );
 
 const selectUserIsOwner = createSelector(

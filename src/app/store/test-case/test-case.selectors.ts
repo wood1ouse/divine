@@ -10,6 +10,11 @@ const selectTestCases = createSelector(
   (state) => state.testCases
 );
 
+const selectActiveTestCaseId = createSelector(
+  selectTestCaseState,
+  (state) => state.activeTestCaseId
+);
+
 const selectActiveTestCase = createSelector(
   selectTestCaseState,
   selectTestCases,
@@ -24,6 +29,7 @@ const selectActiveTestCase = createSelector(
 
 export const fromTestCase = {
   selectTestCaseState,
+  selectActiveTestCaseId,
   selectTestCases,
   selectActiveTestCase,
 };

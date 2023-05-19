@@ -1,3 +1,5 @@
+import { TestCase } from '@models/database';
+
 export interface TrelloMember {
   id: string;
   aaId: string;
@@ -135,4 +137,32 @@ export interface TrelloCard {
   };
   isTemplate: boolean;
   cardRole: null;
+}
+
+export interface TrelloBoard {
+  id: string;
+  name: string;
+  url: string;
+}
+
+export interface TrelloList {
+  id: string;
+  name: CardListsNames;
+  closed: boolean;
+  idBoard: string;
+  pos: number;
+  status: any;
+}
+
+export enum CardListsNames {
+  NOT_STARTED = 'Not Started',
+  IN_PROGRESS = 'In Progress',
+  CODE_REVIEW = 'Code Review',
+  DONE = 'Done',
+}
+
+export interface TrelloTestCase extends TestCase {
+  trelloBoard: string;
+  trelloCard: string;
+  trelloList: string;
 }
