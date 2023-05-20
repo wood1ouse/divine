@@ -16,7 +16,7 @@ import { DefaultGuard } from './guards/default.guard';
 import { LoggedInGuard } from './guards/logged-in.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { ProjectAccessGuard } from './guards/project-access.guard';
-import { StatisticsComponent } from '@pages/statistics/statistics.component';
+import { SettingsComponent } from '@pages/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -68,6 +68,11 @@ const routes: Routes = [
   {
     path: 'projects',
     component: ProjectsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
     canActivate: [AuthGuard],
   },
   {

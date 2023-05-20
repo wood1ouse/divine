@@ -25,6 +25,7 @@ import { EmailConfirmComponent } from '@pages/email-confirm/email-confirm.compon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
+  NbAccordionModule,
   NbButtonModule,
   NbCardModule,
   NbContextMenuModule,
@@ -52,6 +53,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { DeletePromptComponent } from '@pages/delete-prompt/delete-prompt.component';
 import { StatisticsComponent } from '@pages/statistics/statistics.component';
 import { NgChartsModule } from 'ng2-charts';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -88,6 +90,7 @@ const STORE = [
     DeletePromptComponent,
     StatisticsComponent,
     StatisticsComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -130,6 +133,7 @@ const STORE = [
     NbContextMenuModule,
     NbMenuModule.forRoot(),
     NgChartsModule,
+    NbAccordionModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TrelloInterceptor, multi: true },

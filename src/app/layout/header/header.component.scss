@@ -13,12 +13,11 @@
   &__popover-menu {
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 140px;
 
     &__row {
       height: 48px;
       display: flex;
-      justify-content: center;
       align-items: center;
       cursor: pointer;
 
@@ -37,8 +36,17 @@
     margin-right: 18px;
   }
 
+  &__logo {
+    font-style: italic;
+    font-weight: 500;
+    position: absolute;
+    left: 0;
+    margin-left: 50%;
+  }
+
 }
 
 nb-user, nb-icon {
+  margin-left: 10px;
   margin-right: 18px;
 }

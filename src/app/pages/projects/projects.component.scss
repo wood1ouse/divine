@@ -1,3 +1,37 @@
-li {
-  cursor: pointer;
+.projects {
+  &__invite__form {
+    display: flex;
+    height: 64px;
+    width: 100%;
+    justify-content: center;
+    align-items: end;
+
+    input {
+      width: 350px;
+    }
+
+    button {
+      margin-left: 10px;
+    }
+
+    form {
+      margin-right: 10px;
+    }
+  }
+
+  &__container {
+    width: 100%;
+    height: 100%;
+
+    nb-card {
+      cursor: pointer;
+      transition: background .3s linear;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
 }
+
+

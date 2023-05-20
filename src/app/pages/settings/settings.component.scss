@@ -1,0 +1,33 @@
+.settings {
+  &__integration {
+    &__container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      nb-icon {
+        margin-left: 10px;
+      }
+    }
+
+    &__form {
+      margin-left: 16px;
+      width: 34%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__sync-icon {
+      color: white;
+      border-radius: 50px;
+      background: #00D68F;
+      font-size: 28px;
+      margin-left: 10px;
+    }
+  }
+}

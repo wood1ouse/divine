@@ -1,0 +1,39 @@
+<nb-card>
+  <nb-card-header>Preferences</nb-card-header>
+  <nb-card-body>
+    <nb-accordion>
+      <nb-accordion-item>
+        <nb-accordion-item-header>
+          <div class="settings__integration__header">
+            <nb-tag text="Trello Integration"></nb-tag>
+          </div>
+          <nb-icon class="settings__integration__sync-icon" *ngIf="isLinkedWithTrello | async"
+                   icon="checkmark-circle-2-outline" status="success"></nb-icon>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <div class="settings__integration__container">
+            <div>
+              <ol>
+                <li>
+                  <a href="https://trello.com/power-ups/admin">Power Up</a> your Trello Account
+                </li>
+                <li>
+                  Go to 'API Key section'
+                </li>
+                <li>
+                  Follow 'Token' link at the right of the API key
+                </li>
+              </ol>
+            </div>
+            <form class="settings__integration__form" [formGroup]="linkWithTrelloForm" (ngSubmit)="onTrelloLink()">
+              <input nbInput placeholder="API Key" formControlName="apiKey" />
+              <input nbInput placeholder="Token" formControlName="token">
+              <button type="submit" nbButton status="success">Link</button>
+            </form>
+          </div>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+
+  </nb-card-body>
+</nb-card>
