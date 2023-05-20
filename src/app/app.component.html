@@ -1,4 +1,14 @@
 <nb-layout>
+  <nb-sidebar state="compacted">
+    <div class="sidebar__icons">
+      <nb-icon icon="home-outline" routerLink="/"></nb-icon>
+      <nb-icon routerLink="/projects" icon="cube-outline" [nbContextMenu]="projects"
+               [nbContextMenuPlacement]="NbPosition.RIGHT"
+               [nbContextMenuTrigger]="NbTrigger.HOVER"></nb-icon>
+      <nb-icon icon="folder-outline" [nbContextMenu]="testSuites" [nbContextMenuPlacement]="NbPosition.RIGHT"
+               [nbContextMenuTrigger]="NbTrigger.HOVER"></nb-icon>
+    </div>
+  </nb-sidebar>
 
   <nb-layout-header fixed>
     <divine-header

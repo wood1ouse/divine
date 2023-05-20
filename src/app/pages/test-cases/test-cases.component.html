@@ -20,9 +20,13 @@
       <button nbButton (click)="onFiltersReset()">Reset</button>
     </div>
 
-    <button status="success" class="test-cases__controls__button_create" nbButton (click)="openWindow()">Create Test
-      Case
-    </button>
+    <div class="test-cases__controls__create">
+      <button status="success" class="test-cases__controls__button_create" nbButton (click)="openWindow()">Create Test
+        Case
+      </button>
+      <nb-icon (click)="onStatisticsClick()" icon="trending-up-outline"></nb-icon>
+    </div>
+
   </div>
 </nb-card>
 

@@ -37,7 +37,6 @@ export interface Database {
       };
       projects: {
         Row: {
-          api_token: string | null;
           created_at: string;
           description: string | null;
           id: number;
@@ -46,7 +45,6 @@ export interface Database {
           updated_at: string;
         };
         Insert: {
-          api_token?: string | null;
           created_at: string;
           description?: string | null;
           id?: number;
@@ -55,7 +53,6 @@ export interface Database {
           updated_at: string;
         };
         Update: {
-          api_token?: string | null;
           created_at?: string;
           description?: string | null;
           id?: number;

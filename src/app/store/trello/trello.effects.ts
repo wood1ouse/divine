@@ -177,52 +177,59 @@ export class TrelloEffects {
 
   loadTrelloTestCases$ = createEffect(() =>
     interval(2000).pipe(
-      withLatestFrom(this.store.select(fromTestCase.selectTestCases)),
-      switchMap(([_, testCases]) => {
-        const trelloTestCases$ = testCases.map((testCase) => {
-          const { trello_board_id, trello_card_id } = testCase;
+      withLatestFrom(
+        this.store.select(fromTestCase.selectTestCases),
+        this.store.select(fromTrello.selectTrackCardList)
+      ),
+      switchMap(([_, testCases, isTrackingCardList]) => {
+        if (isTrackingCardList) {
+          const trelloTestCases$ = testCases.map((testCase) => {
+            const { trello_board_id, trello_card_id } = testCase;
 
-          if (trello_board_id && trello_card_id) {
-            return forkJoin({
-              trelloBoard: this.apiTrelloService.getBoard(trello_board_id),
-              trelloCard: this.apiTrelloService.getCard(trello_card_id),
-              list: this.apiTrelloService.getListOnCard(trello_card_id),
-            }).pipe(
-              map(({ trelloBoard, trelloCard, list }) => ({
-                ...testCase,
-                trelloBoard: trelloBoard ? trelloBoard.name : '',
-                trelloCard: trelloCard ? trelloCard.name : '',
-                trelloList: list ? list.name : '',
-              })),
-              catchError(() =>
-                of({
+            if (trello_board_id && trello_card_id) {
+              return forkJoin({
+                trelloBoard: this.apiTrelloService.getBoard(trello_board_id),
+                trelloCard: this.apiTrelloService.getCard(trello_card_id),
+                list: this.apiTrelloService.getListOnCard(trello_card_id),
+              }).pipe(
+                map(({ trelloBoard, trelloCard, list }) => ({
                   ...testCase,
-                  trelloBoard: '',
-                  trelloCard: '',
-                  trelloList: '',
-                })
-              )
-            );
-          } else {
-            return of({
-              ...testCase,
-              trelloBoard: '',
-              trelloCard: '',
-              trelloList: '',
-            });
-          }
-        });
+                  trelloBoard: trelloBoard ? trelloBoard.name : '',
+                  trelloCard: trelloCard ? trelloCard.name : '',
+                  trelloList: list ? list.name : '',
+                })),
+                catchError(() =>
+                  of({
+                    ...testCase,
+                    trelloBoard: '',
+                    trelloCard: '',
+                    trelloList: '',
+                  })
+                )
+              );
+            } else {
+              return of({
+                ...testCase,
+                trelloBoard: '',
+                trelloCard: '',
+                trelloList: '',
+              });
+            }
+          });
 
-        return forkJoin(trelloTestCases$).pipe(
-          map((trelloTestCases) => {
-            return TrelloActions.loadTrelloTestCasesSuccess({
-              trelloTestCases,
-            });
-          }),
-          catchError((error) =>
-            of(TrelloActions.loadTrelloTestCasesFailure({ error }))
-          )
-        );
+          return forkJoin(trelloTestCases$).pipe(
+            map((trelloTestCases) => {
+              return TrelloActions.loadTrelloTestCasesSuccess({
+                trelloTestCases,
+              });
+            }),
+            catchError((error) =>
+              of(TrelloActions.loadTrelloTestCasesFailure({ error }))
+            )
+          );
+        } else {
+          return EMPTY;
+        }
       })
     )
   );
