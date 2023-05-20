@@ -16,6 +16,7 @@ import { DefaultGuard } from './guards/default.guard';
 import { LoggedInGuard } from './guards/logged-in.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { ProjectAccessGuard } from './guards/project-access.guard';
+import { StatisticsComponent } from '@pages/statistics/statistics.component';
 
 const routes: Routes = [
   {
@@ -87,6 +88,11 @@ const routes: Routes = [
   {
     path: 'projects/:projectId/test-suites/:testSuiteId/test-cases',
     component: TestCasesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'projects/:projectId/test-suites/:testSuiteId/test-cases/statistics',
+    component: StatisticsComponent,
     canActivate: [AuthGuard],
   },
   {

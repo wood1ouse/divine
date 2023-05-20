@@ -50,6 +50,8 @@ import { TestCaseCreateComponent } from '@pages/test-case-create/test-case-creat
 import { MatTableModule } from '@angular/material/table';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { DeletePromptComponent } from '@pages/delete-prompt/delete-prompt.component';
+import { StatisticsComponent } from '@pages/statistics/statistics.component';
+import { NgChartsModule } from 'ng2-charts';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -84,6 +86,8 @@ const STORE = [
     ProjectCreateComponent,
     TestCaseCreateComponent,
     DeletePromptComponent,
+    StatisticsComponent,
+    StatisticsComponent,
   ],
   imports: [
     BrowserModule,
@@ -125,6 +129,7 @@ const STORE = [
     NbSidebarModule.forRoot(),
     NbContextMenuModule,
     NbMenuModule.forRoot(),
+    NgChartsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TrelloInterceptor, multi: true },

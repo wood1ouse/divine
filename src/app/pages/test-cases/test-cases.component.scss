@@ -12,6 +12,14 @@
         margin-right: 10px;
       }
     }
+
+    &__create {
+      display: flex;
+
+      nb-icon {
+        margin-right: 10px;
+      }
+    }
   }
 
   &__skeleton {
@@ -39,5 +47,17 @@ tr {
 
   &:hover {
     filter: brightness(0.85);
+  }
+}
+
+nb-icon {
+  cursor: pointer;
+  font-size: 36px;
+  padding: 5px;
+  border-radius: 25px;
+  transition: background .3s linear;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
   }
 }

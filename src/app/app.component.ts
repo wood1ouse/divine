@@ -8,7 +8,6 @@ import { TestSuiteFacade } from '@facades/test-suite.facade';
 import { TestCaseFacade } from '@facades/test-case.facade';
 import { NbMenuItem, NbPosition, NbTrigger } from '@nebular/theme';
 import { ApiTestSuiteService } from './api/api.test-suite.service';
-import { ApiTestCaseService } from './api/api.test-case.service';
 
 @Component({
   selector: 'divine-root',
@@ -34,8 +33,7 @@ export class AppComponent implements OnInit {
     private projectsFacade: ProjectsFacade,
     private testSuitesFacade: TestSuiteFacade,
     private testCasesFacade: TestCaseFacade,
-    private apiTestSuiteService: ApiTestSuiteService,
-    private apiTestCaseService: ApiTestCaseService
+    private apiTestSuiteService: ApiTestSuiteService
   ) {}
 
   async ngOnInit(): Promise<void> {
