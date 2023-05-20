@@ -1,3 +1,11 @@
-<p>DASHBOARD PAGE</p>
-<a routerLink="/projects">Projects</a>
-<button routerLink="/projects/create" nbButton>Create New Project</button>
+<div class="dashboard__container">
+  <nb-card>
+    <nb-card-header>
+      Welcome to Divine ✨
+    </nb-card-header>
+    <nb-card-body>
+      <button routerLink="/projects" nbButton>Explore Projects</button>
+      <button routerLink="/projects/create" nbButton status="success">Create New</button>
+    </nb-card-body>
+  </nb-card>
+</div>

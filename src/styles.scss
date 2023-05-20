@@ -4,8 +4,14 @@
 
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 @include nb-install() {
   @include nb-theme-global();
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
 ;
