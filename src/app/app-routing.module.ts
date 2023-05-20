@@ -91,11 +91,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'projects/:projectId/test-suites/:testSuiteId/test-cases/statistics',
-    component: StatisticsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'projects/:projectId/test-suites/:testSuiteId/test-cases/:testCaseId',
     component: TestCaseDetailComponent,
     canActivate: [AuthGuard],
