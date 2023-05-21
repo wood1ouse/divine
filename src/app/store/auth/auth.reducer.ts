@@ -8,12 +8,14 @@ export const featureKey = 'auth';
 
 export interface State extends ApiState {
   user: User | null;
+  errorMessage: string | null;
 }
 
 export const initialState: State = {
   user: null,
   status: ApiStatuses.NOT_LOADED,
   error: null,
+  errorMessage: null,
 };
 
 export const reducer = createReducer(
@@ -46,6 +48,15 @@ export const reducer = createReducer(
       user: null,
       status: ApiStatuses.LOADED,
       error: null,
+    })
+  ),
+  on(
+    AuthActions.signInFailure,
+    (state, { errorMessage }): State => ({
+      ...state,
+      user: null,
+      status: ApiStatuses.NOT_LOADED,
+      errorMessage,
     })
   )
 );

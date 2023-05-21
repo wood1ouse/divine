@@ -1,7 +1,9 @@
 <div class="header__container">
   <nb-tag class="header__logo" text="Divine ✨" status="primary"></nb-tag>
-  <div class="header__trello-username">{{trelloUserName}}</div>
-  <nb-icon *ngIf="trelloUserName" status="success" icon="link-outline"></nb-icon>
+  <ng-container *ngIf="email">
+    <div class="header__trello-username">{{trelloUserName}}</div>
+    <nb-icon *ngIf="trelloUserName" status="success" icon="link-outline"></nb-icon>
+  </ng-container>
   <nb-user *ngIf="email"
            [name]="email"
            [nbPopover]="popOverRef"
