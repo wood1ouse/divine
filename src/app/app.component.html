@@ -1,5 +1,5 @@
 <nb-layout>
-  <nb-sidebar state="compacted">
+  <nb-sidebar *ngIf="user$ | async" state="compacted">
     <div class="sidebar__icons">
       <nb-icon icon="home-outline" routerLink="/"></nb-icon>
       <nb-icon routerLink="/projects" icon="cube-outline" [nbContextMenu]="projects"
@@ -23,9 +23,4 @@
     <router-outlet></router-outlet>
 
   </nb-layout-column>
-
-  <nb-layout-footer fixed>
-    <!-- Insert footer here -->
-  </nb-layout-footer>
-
 </nb-layout>

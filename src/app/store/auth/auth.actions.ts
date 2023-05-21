@@ -16,6 +16,11 @@ const signInSuccess = createAction(
   props<{ user: User | null }>()
 );
 
+const signInFailure = createAction(
+  '[Auth] Sign In Failure',
+  props<{ errorMessage: string }>()
+);
+
 const initAuthState = createAction('[Auth] Init Auth State');
 
 const setUser = createAction('[Auth] Set User', props<{ user: User | null }>());
@@ -29,6 +34,7 @@ export const AuthActions = {
   registerSuccess,
   signIn,
   signInSuccess,
+  signInFailure,
   initAuthState,
   setUser,
   signOut,

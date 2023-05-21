@@ -18,6 +18,10 @@ export class AuthFacade {
     fromAuth.selectUserEmail
   );
 
+  authError$: Observable<string | null> = this.store.select(
+    fromAuth.selectAuthErrorMessage
+  );
+
   dispatchRegister(credentials: UserCredentials): void {
     this.store.dispatch(AuthActions.register(credentials));
   }

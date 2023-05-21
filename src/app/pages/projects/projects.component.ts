@@ -18,8 +18,6 @@ export class ProjectsComponent implements OnInit {
 
   joinProjectForm: FormGroup;
 
-  linkWithTrelloForm: FormGroup;
-
   joinErrorMessage$: Observable<string | null>;
 
   constructor(
@@ -31,10 +29,6 @@ export class ProjectsComponent implements OnInit {
   ) {
     this.joinProjectForm = this.formBuilder.group({
       inviteToken: ['', [Validators.required]],
-    });
-    this.linkWithTrelloForm = this.formBuilder.group({
-      apiKey: ['', [Validators.required]],
-      token: ['', [Validators.required]],
     });
   }
 
@@ -52,19 +46,10 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onJoinProjectSubmit() {
     if (this.joinProjectForm.valid) {
       const inviteToken = this.joinProjectForm.value.inviteToken;
       this.projectsFacade.dispatchJoinProject(inviteToken);
-    }
-  }
-
-  onTrelloLink() {
-    if (this.linkWithTrelloForm.valid) {
-      this.trelloFacade.dispatchLinkWithTrello(
-        this.linkWithTrelloForm.value.apiKey,
-        this.linkWithTrelloForm.value.token
-      );
     }
   }
 }

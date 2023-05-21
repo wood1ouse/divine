@@ -1,9 +1,23 @@
-<p>PROJECT DETAIL PAGE</p>
-<ng-container *ngIf="project$ | async as project">
-  <div>Project Name: {{ project.name }}</div>
-  <div *ngIf="inviteToken$ | async as inviteToken">Invite Token: {{inviteToken}}</div>
-  <div *ngIf="inviteTokenRemainingTime$ | async as inviteTokenRemainingTime">
-    {{ inviteTokenRemainingTime | date:'mm:ss' }}
-  </div>
-  <a routerLink="./test-suites">Test Suites</a>
-</ng-container>
+<nb-card *ngIf="project$ | async as project">
+  <nb-card-header>
+    {{project.name}}
+    <div class="project-detail__invite-token__container">
+      <div class="project-detail__invite-token__time"
+           *ngIf="inviteTokenRemainingTime$ | async as inviteTokenRemainingTime">
+        {{ inviteTokenRemainingTime | date:'mm:ss' }}
+      </div>
+      <div *ngIf="inviteToken$ | async as inviteToken" nbPopover="Copied!"
+           [cdkCopyToClipboard]="inviteToken"
+           class="project-detail__invite-token">
+        {{inviteToken}}
+        <nb-icon icon="file-outline"></nb-icon>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="project-detail__test-suites">
+      <nb-icon icon="folder-outline"></nb-icon>
+      <div routerLink="./test-suites">Test Suites</div>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -1,23 +1,14 @@
-<p>PROJECTS PAGE</p>
 <div [ngStyle]="{'color': 'red'}">{{ joinErrorMessage$ | async }}</div>
-<form [formGroup]="joinProjectForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="inviteToken">Invite Token:</label>
-    <input type="text" id="inviteToken" formControlName="inviteToken" />
-  </div>
-  <button type="submit">Join Project</button>
-</form>
-<form [formGroup]="linkWithTrelloForm" (ngSubmit)="onTrelloLink()">
-  <div>
-    <label for="inviteToken">API Key:</label>
-    <input type="text" id="apiKey" formControlName="apiKey" />
-    <label for="inviteToken">Token:</label>
-    <input type="text" id="token" formControlName="token" />
-  </div>
-  <button type="submit">Link With Trello</button>
-</form>
-<ul *ngIf="projects$ | async as projects">
-  <li *ngFor="let project of projects">
-    <a (click)="setActiveProject(project.id)">{{project.name}}</a>
-  </li>
-</ul>
+<nb-card class="projects__invite__form">
+  <form [formGroup]="joinProjectForm" (ngSubmit)="onJoinProjectSubmit()">
+    <input nbInput placeholder="Invite Token" type="text" id="inviteToken" formControlName="inviteToken" />
+    <button nbButton type="submit" status="success">Join Project</button>
+  </form>
+</nb-card>
+
+<div class="projects__container" *ngIf="projects$ | async as projects">
+  <nb-card *ngFor="let project of projects" (click)="setActiveProject(project.id)">
+    <nb-card-header>{{project.name}}</nb-card-header>
+    <nb-card-body>{{project.description}}</nb-card-body>
+  </nb-card>
+</div>

@@ -1,6 +1,9 @@
 <div class="header__container">
-  <div class="header__trello-username">{{trelloUserName}}</div>
-  <nb-icon *ngIf="trelloUserName" status="success" icon="link-outline"></nb-icon>
+  <nb-tag class="header__logo" text="Divine ✨" status="primary"></nb-tag>
+  <ng-container *ngIf="email">
+    <div class="header__trello-username">{{trelloUserName}}</div>
+    <nb-icon *ngIf="trelloUserName" status="success" icon="link-outline"></nb-icon>
+  </ng-container>
   <nb-user *ngIf="email"
            [name]="email"
            [nbPopover]="popOverRef"
@@ -12,9 +15,13 @@
 
 <ng-template #popOverRef>
   <div class="header__popover-menu">
-    <div class="header__popover-menu__row logout">
+    <div (click)="settings()" class="header__popover-menu__row logout">
+      <nb-icon icon="settings-2-outline"></nb-icon>
+      <div>Preferences</div>
+    </div>
+    <div (click)="logout()" class="header__popover-menu__row logout">
       <nb-icon icon="log-out"></nb-icon>
-      <div (click)="logout()">Log Out</div>
+      <div>Log Out</div>
     </div>
   </div>
 </ng-template>

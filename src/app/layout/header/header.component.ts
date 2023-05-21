@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { AuthFacade } from '@facades/auth.facade';
 import { User } from '@supabase/supabase-js';
+import { Router } from '@angular/router';
+import { NbPopoverDirective } from '@nebular/theme';
 
 @Component({
   selector: 'divine-header',
@@ -8,7 +10,9 @@ import { User } from '@supabase/supabase-js';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  constructor(private authFacade: AuthFacade) {}
+  @ViewChild(NbPopoverDirective) popover: NbPopoverDirective;
+
+  constructor(private authFacade: AuthFacade, private router: Router) {}
 
   @Input() trelloUserName: string | null;
 
@@ -18,5 +22,11 @@ export class HeaderComponent {
 
   logout(): void {
     this.authFacade.dispatchLogout();
+    this.popover.hide();
+  }
+
+  settings(): void {
+    this.router.navigate(['/settings']);
+    this.popover.hide();
   }
 }

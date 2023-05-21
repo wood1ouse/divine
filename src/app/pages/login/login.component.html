@@ -1,35 +1,33 @@
-<div>
-  <div>
-    <div>
-      <h2>Login</h2>
-    </div>
-    <form (ngSubmit)="login()" [formGroup]="loginForm">
-      <div class="rounded-md shadow-sm -space-y-px">
-        <div>
-          <label for="email-address" class="sr-only">Email</label>
-          <input
-            id="email-address"
-            formControlName="email"
-            type="email"
-            required
-            placeholder="Email"
-          />
+<div class="login__container">
+  <nb-card>
+    <nb-card-header>Login</nb-card-header>
+    <nb-card-body>
+      <form (ngSubmit)="login()" [formGroup]="loginForm">
+        <input
+          nbInput
+          id="email-address"
+          formControlName="email"
+          type="email"
+          required
+          placeholder="Email"
+        />
+        <input
+          nbInput
+          id="password"
+          formControlName="password"
+          type="password"
+          required
+          placeholder="Password"
+        />
+        <div *ngIf="authError$ | async as authError" [ngStyle]="{'color': 'red', 'marginBottom': '10px'}">
+          {{ authError }}
         </div>
-        <div>
-          <label for="password" class="sr-only">Password</label>
-          <input
-            id="password"
-            formControlName="password"
-            type="password"
-            required
-            placeholder="Password"
-          />
-        </div>
-      </div>
-      <div>
-        <button type="submit">Login</button>
-      </div>
-    </form>
-    <a href="/auth/register">Register</a>
-  </div>
+        <button nbButton status="success" type="submit">Login</button>
+        <span>Want to join us?
+            <a href="/auth/register">Sign Up</a>
+          </span>
+      </form>
+    </nb-card-body>
+
+  </nb-card>
 </div>

@@ -4,6 +4,7 @@ import {
   NbIconModule,
   NbPopoverModule,
   NbSidebarModule,
+  NbTagModule,
   NbUserModule,
 } from '@nebular/theme';
 import { CommonModule } from '@angular/common';
@@ -20,6 +21,7 @@ const COMPONENTS = [HeaderComponent];
     NbIconModule,
     NbEvaIconsModule,
     NbSidebarModule,
+    NbTagModule,
   ],
   exports: [...COMPONENTS],
 })

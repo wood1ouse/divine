@@ -1,15 +1,13 @@
-<div class="project-create-container">
+<div class="project-create__container">
   <nb-card>
     <nb-card-header>Create Project</nb-card-header>
     <nb-card-body>
       <form (ngSubmit)="createProject()" [formGroup]="projectForm">
-        <label for="name">Name:</label>
-        <input nbInput type="text" id="name" formControlName="name" required />
+        <input placeholder="Name" nbInput type="text" id="name" formControlName="name" required />
 
-        <label for="description">Description:</label>
-        <textarea nbInput id="description" formControlName="description" required></textarea>
+        <textarea placeholder="Description" nbInput id="description" formControlName="description" required></textarea>
 
-        <button nbButton status="primary" [disabled]="projectForm.invalid">Save</button>
+        <button nbButton status="primary" [disabled]="projectForm.invalid">Create</button>
       </form>
     </nb-card-body>
   </nb-card>

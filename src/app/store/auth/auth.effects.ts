@@ -7,6 +7,8 @@ import { AuthActions } from './auth.actions';
 import { ApiAuthService } from '../../api/api.auth.service';
 import { Router } from '@angular/router';
 
+import { AuthError } from '@supabase/supabase-js';
+
 @Injectable()
 export class AuthEffects {
   register$ = createEffect(() =>
@@ -35,14 +37,14 @@ export class AuthEffects {
       switchMap(({ email, password }) =>
         from(this.authService.signIn(email, password)).pipe(
           map((response) => {
-            if (response.user) {
-              return AuthActions.signInSuccess({ user: response.user });
-            } else {
-              throw Error();
-            }
+            return AuthActions.signInSuccess({ user: response });
           }),
-          catchError((error) => {
-            return of({ type: '[Auth] Sign In Error', error });
+          catchError((error: AuthError) => {
+            return of(
+              AuthActions.signInFailure({
+                errorMessage: error.message,
+              })
+            );
           })
         )
       )

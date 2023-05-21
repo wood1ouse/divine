@@ -21,16 +21,15 @@ export class ApiAuthService {
     return { user: data.user, error };
   }
 
-  async signIn(
-    email: string,
-    password: string
-  ): Promise<{ user: User | null; error: Error | null }> {
+  async signIn(email: string, password: string): Promise<User> {
     const { data, error } = await this.supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    return { user: data.user, error };
+    if (!data.user || error) throw error;
+
+    return data.user;
   }
 
   async signOut(): Promise<void> {

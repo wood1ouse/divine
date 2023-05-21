@@ -1,0 +1,51 @@
+.project-detail {
+  &__invite-token {
+    cursor: pointer;
+    width: 350px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+    border-radius: 50px;
+    background: #EDF1F7;
+
+    transition: filter .3s linear;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+
+    &__container {
+      display: flex;
+      align-items: center;
+    }
+
+    &__time {
+      margin-right: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 32px;
+      width: 64px;
+      padding: 10px;
+      border-radius: 50px;
+      background: #EDF1F7;
+    }
+  }
+
+  &__test-suites {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    nb-icon {
+      margin-right: 10px;
+    }
+  }
+}
+
+nb-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

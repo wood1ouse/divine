@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromTrelloReducer from './trello.reducer';
+import { fromTestCase } from '@store/test-case/test-case.selectors';
 
 const selectTrelloState = createFeatureSelector<fromTrelloReducer.State>(
   fromTrelloReducer.featureKey
@@ -77,7 +78,9 @@ const selectTrelloTestCases = createSelector(
   selectTrelloState,
   selectBoardFilter,
   selectStatusFilter,
-  (state, currentTrelloBoard, currentStatus) => {
+  fromTestCase.selectTestCases,
+  (state, currentTrelloBoard, currentStatus, testCases) => {
+    if (!testCases.length) return [];
     return state.testingStatusFilter || state.boardFilter
       ? state.trelloTestCases.filter(
           (item) =>

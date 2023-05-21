@@ -17,9 +17,15 @@ const selectUserIsLoaded = createSelector(
   (state) => state.status === ApiStatuses.LOADED
 );
 
+const selectAuthErrorMessage = createSelector(
+  selectAuthState,
+  (state) => state.errorMessage
+);
+
 export const fromAuth = {
   selectAuthState,
   selectUser,
   selectUserEmail,
   selectUserIsLoaded,
+  selectAuthErrorMessage,
 };
