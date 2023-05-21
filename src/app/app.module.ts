@@ -34,6 +34,7 @@ import {
   NbInputModule,
   NbLayoutModule,
   NbMenuModule,
+  NbPopoverModule,
   NbSelectWithAutocompleteModule,
   NbSidebarModule,
   NbStepperModule,
@@ -54,6 +55,7 @@ import { DeletePromptComponent } from '@pages/delete-prompt/delete-prompt.compon
 import { StatisticsComponent } from '@pages/statistics/statistics.component';
 import { NgChartsModule } from 'ng2-charts';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -134,6 +136,8 @@ const STORE = [
     NbMenuModule.forRoot(),
     NgChartsModule,
     NbAccordionModule,
+    NbPopoverModule,
+    ClipboardModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TrelloInterceptor, multi: true },
