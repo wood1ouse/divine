@@ -54,7 +54,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { DeletePromptComponent } from '@pages/delete-prompt/delete-prompt.component';
 import { StatisticsComponent } from '@pages/statistics/statistics.component';
 import { NgChartsModule } from 'ng2-charts';
-import { SettingsComponent } from './pages/settings/settings.component';
+import { SettingsComponent } from '@pages/settings/settings.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 const COMPONENTS = [

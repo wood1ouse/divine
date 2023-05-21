@@ -1,20 +1,21 @@
-<ul *ngIf="testSuites$ | async as testSuites">
-  <li (click)="onTestSuiteClick(testSuite.id)" *ngFor="let testSuite of testSuites">
-    <a>{{testSuite.name}}</a>
-  </li>
-</ul>
-<form [formGroup]="testSuiteCreateForm" (ngSubmit)="onTestSuiteCreate()" class="space-y-4">
-  <div>
-    <label for="name" class="block text-sm font-medium">Name</label>
-    <input id="name" formControlName="name" type="text" class="mt-1 block w-full" />
-  </div>
-  <div>
-    <label for="description" class="block text-sm font-medium"
-    >Description</label
+<ng-container *ngIf="testSuites$ | async as testSuites">
+  <nb-card (click)="onTestSuiteClick(testSuite.id)" *ngFor="let testSuite of testSuites">
+    <nb-card-header>{{testSuite.name}}</nb-card-header>
+    <nb-card-body>{{testSuite.description}}</nb-card-body>
+  </nb-card>
+
+  <nb-card>
+    <form class="test-suites__create__container" [formGroup]="testSuiteCreateForm" (ngSubmit)="onTestSuiteCreate()"
     >
-    <textarea id="description" formControlName="description" rows="3" class="mt-1 block w-full"></textarea>
-  </div>
-  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-    Create
-  </button>
-</form>
+      <div>
+        <input placeholder="Name" nbInput id="name" formControlName="name" type="text" />
+      </div>
+      <div>
+        <input placeholder="Description" nbInput id="description" formControlName="description" />
+      </div>
+      <button nbButton type="submit" status="success">
+        Create Test Suite
+      </button>
+    </form>
+  </nb-card>
+</ng-container>
