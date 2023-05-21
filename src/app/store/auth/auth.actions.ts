@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { PostgrestError, User } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import { UserCredentials } from 'app/models/auth';
 
 const register = createAction('[Auth] Register', props<UserCredentials>());
