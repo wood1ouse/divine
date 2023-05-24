@@ -8,6 +8,7 @@ import { TestCaseCreateComponent } from '@pages/test-case-create/test-case-creat
 import { TrelloFacade } from '@facades/trello.facade';
 import { CardListsNames, TrelloTestCase } from '@models/api';
 import { StatisticsComponent } from '@pages/statistics/statistics.component';
+import { ReportsComponent } from '@pages/reports/reports.component';
 
 @Component({
   selector: 'divine-test-cases',
@@ -108,6 +109,12 @@ export class TestCasesComponent implements OnInit, OnDestroy {
     this.windowService.open(StatisticsComponent, {
       title: 'Test Suite Statistics',
       initialState: NbWindowState.MAXIMIZED,
+    });
+  }
+
+  onReportsClick() {
+    this.windowService.open(ReportsComponent, {
+      title: 'Test Suite Reports',
     });
   }
 }

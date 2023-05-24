@@ -81,13 +81,25 @@ const selectTrelloTestCases = createSelector(
   fromTestCase.selectTestCases,
   (state, currentTrelloBoard, currentStatus, testCases) => {
     if (!testCases.length) return [];
-    return state.testingStatusFilter || state.boardFilter
-      ? state.trelloTestCases.filter(
-          (item) =>
-            item.trelloBoard === currentTrelloBoard &&
-            item.status === currentStatus
-        )
-      : state.trelloTestCases;
+
+    const result =
+      state.testingStatusFilter || state.boardFilter
+        ? [
+            ...state.trelloTestCases.filter(
+              (item) =>
+                item.trelloBoard === currentTrelloBoard &&
+                item.status === currentStatus
+            ),
+          ]
+        : [...state.trelloTestCases];
+
+    result.sort((a, b) => {
+      if (a.status === 'Testing Done') return -1;
+      if (b.status === 'Testing Done') return 1;
+      return 0;
+    });
+
+    return result;
   }
 );
 

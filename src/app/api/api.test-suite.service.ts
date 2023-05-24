@@ -34,7 +34,8 @@ export class ApiTestSuiteService {
   async createTestSuite(
     projectId: number,
     name: string,
-    description: string
+    description: string,
+    deadline: string
   ): Promise<number> {
     const { data, error } = await this.supabase
       .from('test_suites')
@@ -42,6 +43,7 @@ export class ApiTestSuiteService {
         name: name,
         description: description,
         project_id: projectId,
+        deadline,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
@@ -51,5 +53,16 @@ export class ApiTestSuiteService {
     if (!data || error) throw Error();
 
     return data.id;
+  }
+
+  async getTestSuiteDeadline(testSuiteId: number) {
+    const { data, error } = await this.supabase
+      .from('test_suites')
+      .select('deadline')
+      .eq('id', testSuiteId);
+
+    if (!data || error) throw Error();
+
+    return data;
   }
 }

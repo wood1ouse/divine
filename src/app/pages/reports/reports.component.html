@@ -1,0 +1,9 @@
+<nb-tag *ngIf="deadline" [text]="deadline"></nb-tag>
+<nb-list *ngIf="trelloTestCases$ | async as trelloTestCases">
+  <nb-list-item *ngFor="let testCase of trelloTestCases">
+    <nb-icon class="reports__test-case-icon"
+             [icon]="testCase.status === 'Testing Done' ? 'checkmark-circle-2-outline' : 'minus-circle-outline'"
+             [status]="testCase.status === 'Testing Done' ? 'success' : 'failure'"></nb-icon>
+    {{testCase.title}}
+  </nb-list-item>
+</nb-list>

@@ -15,8 +15,14 @@ const selectActiveTestSuiteId = createSelector(
   (state) => state.activeTestSuiteId
 );
 
+const selectActiveTestSuiteDeadline = createSelector(
+  selectTestSuiteState,
+  (state) => state.activeTestSuiteDeadline
+);
+
 export const fromTestSuite = {
   selectTestSuiteState,
   selectTestSuites,
   selectActiveTestSuiteId,
+  selectActiveTestSuiteDeadline,
 };

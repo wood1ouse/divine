@@ -24,6 +24,8 @@ export class TestSuitesComponent implements OnInit {
     this.testSuiteCreateForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
+      deadlineDay: ['', [Validators.required]],
+      deadlineTime: ['', Validators.required],
     });
   }
 
@@ -35,9 +37,22 @@ export class TestSuitesComponent implements OnInit {
 
   onTestSuiteCreate() {
     if (this.testSuiteCreateForm.valid) {
+      const dateValue = this.testSuiteCreateForm.value.deadlineDay;
+      const timeValue = this.testSuiteCreateForm.value.deadlineTime;
+
+      const year = dateValue.getFullYear();
+      const month = dateValue.getMonth();
+      const date = dateValue.getDate();
+
+      const hours = timeValue.getHours();
+      const minutes = timeValue.getMinutes();
+      const seconds = timeValue.getSeconds();
+
+      const deadline = new Date(year, month, date, hours, minutes, seconds);
       this.testSuitesFacade.dispatchCreateTestSuite(
         this.testSuiteCreateForm.value.name,
-        this.testSuiteCreateForm.value.description
+        this.testSuiteCreateForm.value.description,
+        deadline.toISOString()
       );
     }
   }

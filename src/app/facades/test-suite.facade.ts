@@ -15,13 +15,21 @@ export class TestSuiteFacade {
     fromTestSuite.selectTestSuites
   );
 
+  testSuiteDeadline$: Observable<string | null> = this.store.select(
+    fromTestSuite.selectActiveTestSuiteDeadline
+  );
+
   dispatchLoadTestSuites(): void {
     this.store.dispatch(TestSuiteActions.loadTestSuites());
   }
 
-  dispatchCreateTestSuite(name: string, description: string): void {
+  dispatchCreateTestSuite(
+    name: string,
+    description: string,
+    deadline: string
+  ): void {
     this.store.dispatch(
-      TestSuiteActions.createTestSuite({ name, description })
+      TestSuiteActions.createTestSuite({ name, description, deadline })
     );
   }
 
