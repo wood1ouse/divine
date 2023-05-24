@@ -16,7 +16,7 @@ const loadTestSuitesFailure = createAction(
 
 const createTestSuite = createAction(
   '[TestSuite] Create Test Suite',
-  props<{ name: string; description: string }>()
+  props<{ name: string; description: string; deadline: string }>()
 );
 
 const createTestSuiteSuccess = createAction(
@@ -34,6 +34,21 @@ const setActiveTestSuite = createAction(
   props<{ testSuiteId: number }>()
 );
 
+const loadTestSuiteDeadline = createAction(
+  '[TestSuite] Load Test Suite Deadline',
+  props<{ testSuiteId: number }>()
+);
+
+const loadTestSuiteDeadlineSuccess = createAction(
+  '[TestSuite] Load Test Suite Deadline Success',
+  props<{ deadline: string | null }>()
+);
+
+const loadTestSuiteDeadlineFailure = createAction(
+  '[TestSuite] Load Test Suite Deadline Failure',
+  props<{ error: PostgrestError }>()
+);
+
 export const TestSuiteActions = {
   loadTestSuites,
   loadTestSuitesSuccess,
@@ -42,4 +57,7 @@ export const TestSuiteActions = {
   createTestSuiteSuccess,
   createTestSuiteFailure,
   setActiveTestSuite,
+  loadTestSuiteDeadline,
+  loadTestSuiteDeadlineSuccess,
+  loadTestSuiteDeadlineFailure,
 };

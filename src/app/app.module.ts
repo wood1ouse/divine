@@ -29,10 +29,12 @@ import {
   NbButtonModule,
   NbCardModule,
   NbContextMenuModule,
+  NbDatepickerModule,
   NbDialogModule,
   NbIconModule,
   NbInputModule,
   NbLayoutModule,
+  NbListModule,
   NbMenuModule,
   NbPopoverModule,
   NbSelectWithAutocompleteModule,
@@ -40,6 +42,7 @@ import {
   NbStepperModule,
   NbTagModule,
   NbThemeModule,
+  NbTimepickerModule,
   NbWindowModule,
 } from '@nebular/theme';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -56,6 +59,7 @@ import { StatisticsComponent } from '@pages/statistics/statistics.component';
 import { NgChartsModule } from 'ng2-charts';
 import { SettingsComponent } from '@pages/settings/settings.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { ReportsComponent } from './pages/reports/reports.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -93,6 +97,7 @@ const STORE = [
     StatisticsComponent,
     StatisticsComponent,
     SettingsComponent,
+    ReportsComponent,
   ],
   imports: [
     BrowserModule,
@@ -138,6 +143,9 @@ const STORE = [
     NbAccordionModule,
     NbPopoverModule,
     ClipboardModule,
+    NbDatepickerModule.forRoot(),
+    NbTimepickerModule.forRoot(),
+    NbListModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TrelloInterceptor, multi: true },

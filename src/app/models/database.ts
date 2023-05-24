@@ -99,6 +99,7 @@ export interface Database {
       test_suites: {
         Row: {
           created_at: string;
+          deadline: string | null;
           description: string | null;
           id: number;
           name: string;
@@ -107,6 +108,7 @@ export interface Database {
         };
         Insert: {
           created_at: string;
+          deadline?: string | null;
           description?: string | null;
           id?: number;
           name: string;
@@ -115,6 +117,7 @@ export interface Database {
         };
         Update: {
           created_at?: string;
+          deadline?: string | null;
           description?: string | null;
           id?: number;
           name?: string;

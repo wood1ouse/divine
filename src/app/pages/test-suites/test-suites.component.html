@@ -13,6 +13,10 @@
       <div>
         <input placeholder="Description" nbInput id="description" formControlName="description" />
       </div>
+      <input placeholder="Dead Line Date" nbInput formControlName="deadlineDay" [nbDatepicker]="datepicker">
+      <input placeholder="Dead Line Time" nbInput formControlName="deadlineTime" [nbTimepicker]="timepicker">
+      <nb-datepicker #datepicker></nb-datepicker>
+      <nb-timepicker #timepicker></nb-timepicker>
       <button nbButton type="submit" status="success">
         Create Test Suite
       </button>
