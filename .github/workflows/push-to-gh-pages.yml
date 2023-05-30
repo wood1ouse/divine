@@ -29,7 +29,7 @@ jobs:
 
       - name: Set Git user
         run: |
-          git config --global user.email "m.mamontov-2024@kpi.ua "
+          git config --global user.email "m.mamontov-2024@kpi.ua"
           git config --global user.name "wood1ouse"
 
       - name: Deploy to GitHub Pages
