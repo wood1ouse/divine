@@ -22,10 +22,15 @@ jobs:
         run: npm ci
 
       - name: Build app
-        run: npm run build --configuration="production"
+        run: npm run build -- --configuration="production"
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+
+      - name: Set Git user
+        run: |
+          git config --global user.email "m.mamontov-2024@kpi.ua "
+          git config --global user.name "wood1ouse"
 
       - name: Deploy to GitHub Pages
         run: npx angular-cli-ghpages --dir dist/divine --no-silent
