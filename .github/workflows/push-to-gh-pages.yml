@@ -28,7 +28,7 @@ jobs:
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
 
       - name: Deploy to GitHub Pages
-        uses: angular-schule/angular-cli-ghpages@latest
+        uses: angular-schule/angular-cli-ghpages@1.0.6
         with:
           deploy_token: ${{ secrets.GITHUB_TOKEN }}
           project_name: dist/divine
