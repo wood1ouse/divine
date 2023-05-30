@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: '14.x'
 
+      - name: Set up npm
+        run: npm install -g npm@8
+
       - name: Install dependencies
         run: npm ci
 
@@ -28,4 +31,7 @@ jobs:
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
 
       - name: Deploy to GitHub Pages
-        run: npx angular-cli-ghpages --dir dist/divine --no-silent
+        uses: angular-schule/angular-cli-ghpages@latest
+        with:
+          deploy_token: ${{ secrets.GITHUB_TOKEN }}
+          project_name: dist/divine
