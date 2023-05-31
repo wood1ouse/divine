@@ -27,10 +27,9 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
 
-      - name: Set Git user
-        run: |
-          git config --global user.email "m.mamontov-2024@kpi.ua"
-          git config --global user.name "wood1ouse"
-
-      - name: Deploy to GitHub Pages
-        run: npx angular-cli-ghpages --dir dist/divine --no-silent
+      - name: Deploy to GitHub Pages via angular-cli-ghpages
+        uses: angular-schule/angular-cli-ghpages@1.0.6
+        with:
+          deploy_token: ${{ secrets.GITHUB_TOKEN }}
+          build_configuration: Production
+          base_href: /<your-repo-name>/
